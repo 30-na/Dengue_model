@@ -41,6 +41,7 @@ for(i in 1:length(list_files_name_temp)){
     precipitation_list_file[[i]] = df
 }
 
+
 # save list of files for each month
 save(precipitation_list_file,
      file = "processedData/precipitation_list_file.rda")
@@ -49,80 +50,80 @@ save(precipitation_list_file,
 
 
 ######## Min Tempreature (2.5 minutes) ##########
-path = "Data/min_temperature"
-url = "https://biogeo.ucdavis.edu/data/worldclim/v2.1/base/wc2.1_2.5m_tmin.zip"
-filename = "wc2.1_2.5m_tmin.zip"
-destfile = paste(getwd(),
-                 path,
-                 filename,
-                 sep = "/")
-
-# download zip file
-if(!file.exists(destfile)){
-    download.file(url = url,
-                  destfile = destfile)
-}
-
-# unzip file
-unzip(destfile,
-      exdir = path)
-
-# save all tif files as dataframe in a list
-list_files_name_min = list.files(path = path,
-                             pattern = "*.tif")
-
-min_temperature_list_file = list()
-for(i in 1:length(list_files_name_min)){
-    filename = list_files_name_min[i]
-    r = raster(paste(path,
-                     filename,
-                     sep = "/"))
-    df = as.data.frame(r, xy = TRUE)
-    min_temperature_list_file[[i]] = df
-}
-
-# save list of files for each month
-save(min_temperature_list_file,
-     file = "processedData/min_temperature_list_file.rda")
+# path = "Data/min_temperature"
+# url = "https://biogeo.ucdavis.edu/data/worldclim/v2.1/base/wc2.1_2.5m_tmin.zip"
+# filename = "wc2.1_2.5m_tmin.zip"
+# destfile = paste(getwd(),
+#                  path,
+#                  filename,
+#                  sep = "/")
+# 
+# # download zip file
+# if(!file.exists(destfile)){
+#     download.file(url = url,
+#                   destfile = destfile)
+# }
+# 
+# # unzip file
+# unzip(destfile,
+#       exdir = path)
+# 
+# # save all tif files as dataframe in a list
+# list_files_name_min = list.files(path = path,
+#                              pattern = "*.tif")
+# 
+# min_temperature_list_file = list()
+# for(i in 1:length(list_files_name_min)){
+#     filename = list_files_name_min[i]
+#     r = raster(paste(path,
+#                      filename,
+#                      sep = "/"))
+#     df = as.data.frame(r, xy = TRUE)
+#     min_temperature_list_file[[i]] = df
+# }
+# 
+# # save list of files for each month
+# save(min_temperature_list_file,
+#      file = "processedData/min_temperature_list_file.rda")
 
 
 
 ######## Max Tempreature (2.5 minutes) ##########
-path = "Data/max_temperature"
-url = "https://biogeo.ucdavis.edu/data/worldclim/v2.1/base/wc2.1_2.5m_tmax.zip"
-filename = "wc2.1_2.5m_tmax.zip"
-destfile = paste(getwd(),
-                 path,
-                 filename,
-                 sep = "/")
-
-# download zip file
-if(!file.exists(destfile)){
-    download.file(url = url,
-                  destfile = destfile)
-}
-
-# unzip file
-unzip(destfile,
-      exdir = path)
-
-# save all tif files as dataframe in a list
-list_files_name_max = list.files(path = path,
-                                 pattern = "*.tif")
-
-max_temperature_list_file = list()
-for(i in 1:length(list_files_name_max)){
-    filename = list_files_name_max[i]
-    r = raster(paste(path,
-                     filename,
-                     sep = "/"))
-    df = as.data.frame(r, xy = TRUE)
-    max_temperature_list_file[[i]] = df
-}
-
-# save list of files for each month
-save(max_temperature_list_file,
-     file = "processedData/max_temperature_list_file.rda")
+# path = "Data/max_temperature"
+# url = "https://biogeo.ucdavis.edu/data/worldclim/v2.1/base/wc2.1_2.5m_tmax.zip"
+# filename = "wc2.1_2.5m_tmax.zip"
+# destfile = paste(getwd(),
+#                  path,
+#                  filename,
+#                  sep = "/")
+# 
+# # download zip file
+# if(!file.exists(destfile)){
+#     download.file(url = url,
+#                   destfile = destfile)
+# }
+# 
+# # unzip file
+# unzip(destfile,
+#       exdir = path)
+# 
+# # save all tif files as dataframe in a list
+# list_files_name_max = list.files(path = path,
+#                                  pattern = "*.tif")
+# 
+# max_temperature_list_file = list()
+# for(i in 1:length(list_files_name_max)){
+#     filename = list_files_name_max[i]
+#     r = raster(paste(path,
+#                      filename,
+#                      sep = "/"))
+#     df = as.data.frame(r, xy = TRUE)
+#     max_temperature_list_file[[i]] = df
+# }
+# 
+# # save list of files for each month
+# save(max_temperature_list_file,
+#      file = "processedData/max_temperature_list_file.rda")
 
 
 ######## avg Tempreature (2.5 minutes) ##########
@@ -163,90 +164,79 @@ save(avg_temperature_list_file,
      file = "processedData/avg_temperature_list_file.rda")
 
 
+##################### sample data for January ################
+# avg tempereture
+r_p = raster("Data/precipitation/wc2.1_2.5m_prec_01.tif")
 
+# resample 
+aegypti = raster("Data/aegypti.tif")
+r_p = resample(r_p,
+               aegypti,
+               method='ngb')
 
-######## Geolocalized Economic Data ##########
-# Geophysically scaled dataset linking per capita gross product (GDP) at purchasing power parity (PPP) rates
-path = "Data"
-url = "http://gecon.yale.edu/sites/default/files/files/Gecon40_post_final.xls"
-filename = "Gecon40_post_final.xls"
-destfile = paste(getwd(),
-                 path,
-                 filename,
-                 sep = "/")
-
-# download zip file
-if(!file.exists(destfile)){
-    download.file(url = url,
-                  destfile = destfile)
-}
-
-# read the file
-gEcon = read_excel("Data/Gecon40_post_final.xls")
-PPP <- read_excel("Data/Gecon40_post_final.xls",sheet = 1)
-#Gross cell product, 2005 US $ at purchasing power parity exchange rates, 2005 - column PPP2005_40 in GEcon40-Table 1.csv
-PPP <-PPP[,c(14,13,29)]
-RPP <- rasterFromXYZ(PPP)
-plot(RPP)
-RPP <- resample(RPP, aegypti.data, method='ngb')
-
-GDP <- RPP*exp(0.47362)
-# save list of files for each month
-save(gEcon,
-     file = "processedData/gEcon.rda")
+#convert to data frame
+df_p = as.data.frame(r_p, xy = TRUE)
 
 
 
 
+# precipiation
+r_t = raster("Data/avg_temperature/wc2.1_2.5m_tavg_01.tif")
 
-######## Global Aedes Distribution ##########
-# Uncertainty estimates for mosquito distribution at 5 km x 5 km resolution
-path = "Data"
-url = "https://www.dropbox.com/sh/bpxcmzmmpiiav8u/AAAl3CBKnBYwXb0n1s1C4-K-a?dl=0&preview=aegypti.tif"
-filename = "aegypti.tif"
-destfile = paste(getwd(),
-                 path,
-                 filename,
-                 sep = "/")
+# resample 
+r_t = resample(r_t,
+               aegypti,
+               method='ngb')
 
-# download zip file
-if(!file.exists(destfile)){
-    download.file(url = url,
-                  destfile = destfile)
-}
-
-
-r = raster(paste(path, filename, sep = "/"))
-aegypti = as.data.frame(r, xy = TRUE)
-
-# save list of files for each month
-save(aegypti,
-     file = "processedData/aegypti.rda")
+#convert to data frame
+df_t = as.data.frame(r_t, xy = TRUE)
 
 
 
 
-######## Human Population Density ##########
-# We will use the Unconstrained individual countries2000-2020 UN adjusted (1 km resolution). This will
-# need to be changed to match the 5 km x 5 km resolution of the other data sets.
-path = "Data"
-url = "https://www.dropbox.com/sh/bpxcmzmmpiiav8u/AAAl3CBKnBYwXb0n1s1C4-K-a?dl=0&preview=aegypti.tif"
-filename = "aegypti.tif"
-destfile = paste(getwd(),
-                 path,
-                 filename,
-                 sep = "/")
-
-# download zip file
-if(!file.exists(destfile)){
-    download.file(url = url,
-                  destfile = destfile)
-}
+# merge and rename data 
+climate = df_p %>%
+    inner_join(df_t, by=c("x", "y")) %>%
+    rename("r" = wc2.1_2.5m_prec_01,
+           "t" = wc2.1_2.5m_tavg_01)
 
 
-r = raster(paste(path, filename, sep = "/"))
-aegypti = as.data.frame(r, xy = TRUE)
 
-# save list of files for each month
-save(aegypti,
-     file = "processedData/aegypti.rda")
+# save dataset
+save(climate,
+     file = "processedData/World/January.rda")
+
+
+
+# plot 
+t_map = ggplot() +
+    geom_raster(data = climate , aes(x = x,
+                                  y = y,
+                                  fill = t)) +
+    scale_fill_viridis_c() +
+    coord_quickmap() +
+    labs(title  = "Average Tempereture in January",
+         x = "",
+         y = "")
+    
+
+ggsave("Figures/avgTempereture_January.jpg",
+       t_map,
+       height=4,width=8,scale=1.65)
+
+
+r_map = ggplot() +
+    geom_raster(data = climate , aes(x = x,
+                                     y = y,
+                                     fill = r)) +
+    scale_fill_viridis_c() +
+    coord_quickmap()+
+    labs(title ="Precipitation in January",
+         x = "",
+         y = "")
+
+ggsave("Figures/precipitation_January.jpg",
+       r_map,
+       height=4,width=8,scale=1.65)
+
+

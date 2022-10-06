@@ -24,26 +24,47 @@ if(!file.exists(destfile)){
 gEcon = read_excel("Data/Gecon40_post_final.xls",sheet = 1)
 
 # select coulmn and calculate risk of exposure
+lowest_ppp = gEcon %>%
+    select(PPP2005_40, COUNTRY) %>%
+    group_by(COUNTRY)%>%
+    summarize(lowest = min(PPP2005_40)) %>%
+    filter(COUNTRY == "Djibouti")
+
 PPP = gEcon %>%
-    select(LAT, LONGITUDE, PPP2005_40) %>%
+    select(LAT, LONGITUDE, PPP2005_40, COUNTRY)%>%
+    # replace Somalia PPP2005_40 value with lowest Djibouti PPP2005_40
+    mutate(PPP2005_40 = if_else(COUNTRY == "Somalia" , lowest_ppp$lowest, PPP2005_40))%>%
+    
     mutate(PPP_tranformed = log(PPP2005_40*exp(0.47))) %>%
     mutate(risk_exposure = case_when(PPP_tranformed < 1.97 ~ 1,
                                      PPP_tranformed > 4.911 ~ 0,
-                                     PPP_tranformed > 1.97 & PPP_tranformed < 4.911 ~ (1.67-(0.34*PPP_tranformed))))
+                                     PPP_tranformed > 1.97 & PPP_tranformed < 4.911 ~ (1.67-(0.34*PPP_tranformed)))) %>%
+    select("x" = LONGITUDE,
+           "y" = LAT,
+           "R_se" = risk_exposure)
 
-RPP = rasterFromXYZ(PPP[,c(2,1,5)])
-RPP
-# load("processedData/precipitation_list_file.rda")
-# r = rasterFromXYZ(precipitation_list_file[[1]])
-res(r)
-res(RPP)
-r
-RPP
-r - raster("Data/precipitation/wc2.1_2.5m_prec_01.tif")
-r
+# change it to raster format
+RPP = rasterFromXYZ(PPP)
+
+
+# resample 
+aegypti = raster("Data/aegypti.tif")
+RPP = resample(RPP,
+               aegypti,
+               method = "ngb")
+
+#convert to dataframe
+globalEconomic = as.data.frame(RPP, xy = TRUE)
+
+# save files 
+save(globalEconomic,
+     file = "processedData/globalEconomic.rda")
+
+
+#plot original map
 risk_expsure_map = ggplot() +
-    geom_tile(data = PPP , aes(x = LONGITUDE, y = LAT,
-                                         fill = risk_exposure))+
+    geom_tile(data = PPP , aes(x = x, y = y,
+                                         fill = R_se))+
     scale_fill_viridis_c(direction = 1) +
     ggtitle("Risk of Exposure")
 
@@ -52,17 +73,20 @@ ggsave("Figures/risk_expsure_map.jpg",
        height=4,width=8,scale=1.65)
 
 
-# save list of files for each month
-save(PPP,
-     file = "processedData/PPP.rda")
 
 
-gr = plot(r)
-file_df <- as.data.frame(r)
-names(file_df)
-gr = ggplot() +
-    geom_raster(data = file_df , aes(x = nrow(r), y = nrow(r), fill = wc2.1_2.5m_prec_01)) + #spei_03 is the name of the column whose values I want to plot. 
+# plot resample map
+t_map = ggplot() +
+    geom_raster(data = globalEconomic , aes(x = x,
+                                     y = y,
+                                     fill = R_se)) +
     scale_fill_viridis_c() +
-    coord_quickmap()
+    coord_quickmap() +
+    labs(title  = "Risk of Exposure resample",
+         x = "",
+         y = "")
 
-save(file = "p.jpg", gr)
+ggsave("Figures/risk_expsure_map_resample.jpg",
+       t_map,
+       height=4,width=8,scale=1.65)
+

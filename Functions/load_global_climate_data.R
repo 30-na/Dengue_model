@@ -239,4 +239,7 @@ ggsave("Figures/precipitation_January.jpg",
        r_map,
        height=4,width=8,scale=1.65)
 
-
+a = R0$r0[(((R0$B_hv<0 & R0$nu>0) | (R0$B_hv>0 & R0$nu<0))) & !is.null(R0$t) ]
+range(a, na.rm = T)
+sum(is.na(a))
+apply(R0, 2, range, na.rm = T)

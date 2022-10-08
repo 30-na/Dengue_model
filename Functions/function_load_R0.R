@@ -49,7 +49,7 @@ R0 = aegypti %>%
            K = 1000,
            N_h = 1,
            c_briere = 7.86*10^(-5),
-           z_briere = .28,
+           z_briere = .05,
            c_quad = -5.99*10^(-3),
            z_quad = 0.025,
            # 246 corrected value
@@ -66,16 +66,7 @@ save(R0,
      file = "processedData/R0_january.rda")
 
 
-b = Inf
-
 apply(R0, 2, range, na.rm=T)
-
-
-b/b
-
-
-
-
 
 
 

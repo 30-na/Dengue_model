@@ -64,15 +64,15 @@ runR0 = function(month, preModel, rdaName){
                
                FR_inverse = 1/r*z_inverse,
                
-               r0_briere = ifelse((theta*nu*pi) < mu^2,
+               r0_briere = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_briere),
                                   0,
                                   sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))),
                
-               r0_quadratic = ifelse((theta*nu*pi) < mu^2,
+               r0_quadratic = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_quad),
                                      0,
                                      sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))),
                
-               r0_inverse = ifelse((theta*nu*pi) < mu^2,
+               r0_inverse = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_inverse),
                                   0,
                                   sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_inverse * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))))
                
@@ -88,7 +88,7 @@ runR0 = function(month, preModel, rdaName){
 }
 
 
-month = "January"
+month = "01"
 preModel = "quadratic"
 rdaName = "R0_January"
 runR0(month, preModel, rdaName)

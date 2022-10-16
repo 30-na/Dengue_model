@@ -2,12 +2,13 @@
 library(dplyr)
 library(raster)
 
-runR0 = function(month, preModel, rdaName){
+load("processedData/aegypti.rda")
+load("processedData/globalEconomic.rda")
+
+runR0 = function(month){
     
     #load data
     load(paste("processedData/World/", month , ".RDA" , sep = ""))
-    load("processedData/aegypti.rda")
-    load("processedData/globalEconomic.rda")
     
     
     # merge datasets and define the parameters
@@ -58,49 +59,53 @@ runR0 = function(month, preModel, rdaName){
                                   0,
                                   c_briere*r*(r-0)*sqrt(246-r)*z_briere),
                
-               FR_quad = ifelse(r < 0 | r > 123,
-                                0,
+               FR_quad = ifelse(r < 1 | r > 123,
+                                1,
                                 c_quad*(r-1)*(r-123)*z_quad),
                
                FR_inverse = 1/r*z_inverse,
                
-               r0_briere = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_briere),
-                                  0,
-                                  sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))),
+               r0_briere = ifelse(is.na(R_se),
+                                  NA_real_,
+                                  ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_briere),
+                                         0,
+                                  sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))),
                
-               r0_quadratic = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_quad),
-                                     0,
-                                     sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))),
+               r0_quadratic = ifelse(is.na(R_se),
+                                     NA_real_,
+                                     ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_quad),
+                                            0,
+                                     sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))),
                
-               r0_inverse = ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_inverse),
-                                  0,
-                                  sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_inverse * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))))
+               r0_inverse = ifelse(is.na(R_se),
+                                  NA_real_,
+                                  ifelse((theta*nu*pi) < mu^2 | is.infinite(FR_inverse),
+                                         0,
+                                  sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_inverse * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))),
+              
+                r0_NoFR = ifelse(is.na(R_se),
+                                 NA_real_,
+                                 ifelse((theta*nu*pi) < mu^2,
+                                        0,
+                                  sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * 1 * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))))
                
-               #r0 = case_when((theta*nu*pi) < mu^2 ~ 0,
-               #               preModel == "briere" ~ sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)),
-               #               preModel == "quadratic" ~ sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)),
-               #               preModel == "inverese" ~ sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * FR_inverse * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h))))
-    
+      # R0 = R0 %>%
+      #   dplyr::select(x, y, r0_briere, r0_quadratic, r0_inverse)
     
     save(R0,
-         file = paste("processedData/", rdaName, ".rda", sep=""))
+         file = paste("processedData/R0_", month, ".rda", sep=""))
     
 }
 
 
-month = "01"
-preModel = "quadratic"
-rdaName = "R0_January"
-runR0(month, preModel, rdaName)
 
+# monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+# 
+# for(i in 1:length(monthname)){
+#     runR0(monthname[i])
+# }
 
-
-apply(R0, 2, quantile, na.rm=T)
-
-a = filter(R0, is.nan(r0))
-
-
-
+runR0("July")
 
 
 

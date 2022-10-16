@@ -5,9 +5,11 @@ library(ggplot2)
 library(readxl)
 
 
-monthList = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
 
+monthList = c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 aegypti = raster("Data/aegypti.tif")
+
 
 for(i in 1:length(monthList)){
     # avg precipiation
@@ -38,6 +40,6 @@ for(i in 1:length(monthList)){
     
     # save dataset
     save(climate,
-         file = paste("processedData/World/", monthList[i], ".rda",
+         file = paste("processedData/World/", monthname[i], ".rda",
                       sep = ""))
 }

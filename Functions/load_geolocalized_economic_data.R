@@ -25,13 +25,13 @@ gEcon = read_excel("Data/Gecon40_post_final.xls",sheet = 1)
 
 # select coulmn and calculate risk of exposure
 lowest_ppp = gEcon %>%
-    select(PPP2005_40, COUNTRY) %>%
+    dplyr::select(PPP2005_40, COUNTRY) %>%
     group_by(COUNTRY)%>%
     summarize(lowest = min(PPP2005_40)) %>%
     filter(COUNTRY == "Djibouti")
 
 PPP = gEcon %>%
-    select(LAT, LONGITUDE, PPP2005_40, COUNTRY)%>%
+    dplyr::select(LAT, LONGITUDE, PPP2005_40, COUNTRY)%>%
     # replace Somalia PPP2005_40 value with lowest Djibouti PPP2005_40
     mutate(PPP2005_40 = if_else(COUNTRY == "Somalia" , lowest_ppp$lowest, PPP2005_40))%>%
     
@@ -39,8 +39,9 @@ PPP = gEcon %>%
     mutate(risk_exposure = case_when(PPP_tranformed < 1.97 ~ 1,
                                      PPP_tranformed > 4.911 ~ 0,
                                      PPP_tranformed > 1.97 & PPP_tranformed < 4.911 ~ (1.67-(0.34*PPP_tranformed)))) %>%
-    select("x" = LONGITUDE,
+    dplyr::select("x" = LONGITUDE,
            "y" = LAT,
+           "country" = COUNTRY,
            "R_se" = risk_exposure)
 
 # change it to raster format

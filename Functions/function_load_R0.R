@@ -89,8 +89,8 @@ runR0 = function(month){
                                         0,
                                   sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * 1 * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))))
                
-      # R0 = R0 %>%
-      #   dplyr::select(x, y, r0_briere, r0_quadratic, r0_inverse)
+       R0 = R0 %>%
+         dplyr::select(x, y, r0_briere, r0_quadratic, r0_inverse, r0_NoFR)
     
     save(R0,
          file = paste("processedData/R0_", month, ".rda", sep=""))
@@ -99,14 +99,10 @@ runR0 = function(month){
 
 
 
-# monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
-# 
-# for(i in 1:length(monthname)){
-#     runR0(monthname[i])
-# }
+ monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+ 
+ for(i in 1:length(monthname)){
+     runR0(monthname[i])
+ }
 
-runR0("July")
-
-
-
-           
+#runR0("July")

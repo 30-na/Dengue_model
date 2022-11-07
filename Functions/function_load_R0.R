@@ -60,7 +60,7 @@ runR0 = function(month){
                                   c_briere*r*(r-0)*sqrt(246-r)*z_briere),
                
                FR_quad = ifelse(r < 1 | r > 123,
-                                1,
+                                0,
                                 c_quad*(r-1)*(r-123)*z_quad),
                
                FR_inverse = 1/r*z_inverse,

@@ -45,7 +45,7 @@ fig_precip_date = ggplot(barzil, aes(x = date, y = precip)) +
                 method = "loess") + 
     labs(title = "Brazil Daily precipitation change (1961-2019)",
          x = "Date",
-         y = "Temprature")
+         y = "Precipitation")
 
 
 ggsave("Figures/precip_date.jpg",
@@ -155,9 +155,6 @@ gEcon = read_excel("Data/Gecon40_post_final.xls",sheet = 1)
 
 PPP = gEcon %>%
     dplyr::select(LAT, LONGITUDE, PPP2005_40, COUNTRY)%>%
-    # replace Somalia PPP2005_40 value with lowest Djibouti PPP2005_40
-    mutate(PPP2005_40 = if_else(COUNTRY == "Somalia" , lowest_ppp$lowest, PPP2005_40))%>%
-    
     mutate(PPP_tranformed = log(PPP2005_40*exp(0.47))) %>%
     mutate(risk_exposure = case_when(PPP_tranformed < 1.97 ~ 1,
                                      PPP_tranformed > 4.911 ~ 0,
@@ -273,7 +270,7 @@ R0 = brazil %>%
                                    0,
                                    sqrt((b^2 * B_vh * B_hv * sigma_v * R_se * K * 1 * P_ae * (1-(mu^2/(theta*nu*pi))))/(gamma * mu * (sigma_v+mu) * N_h)))))
     
-names(R0)   
+#names(R0)   
 fig_r0_quad = ggplot(R0, aes(x = week, y = r0_quadratic)) + 
     geom_line(alpha  = .8) + 
     theme_minimal()+

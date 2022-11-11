@@ -100,7 +100,7 @@ risk_exposure = max(globalEconomic$R_se, na.rm = TRUE)
         #stat_contour(geom = "polygon") +
         labs(title = "Inverse R0")+
         xlab("Temperature") +
-        ylab("Precepitation") +
+        ylab("Precipitation") +
         guides(fill = guide_legend(title = "R0"))+
         xlim(c(20,35))+
         ylim(c(0,40))+
@@ -121,7 +121,7 @@ risk_exposure = max(globalEconomic$R_se, na.rm = TRUE)
         #stat_contour(geom = "polygon") +
         labs(title = "Quadratic R0")+
         xlab("Temperature") +
-        ylab("Precepitation") +
+        ylab("Precipitation") +
         guides(fill = guide_legend(title = "R0"))+
         xlim(c(20,35))+
         ylim(c(0,130))+

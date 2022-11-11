@@ -14,10 +14,10 @@ brazil_file = fread("Data/conventional_weather_stations_inmet_brazil_1961_2019.c
 barzil = brazil_file %>%
     dplyr::select("date" = Data,
                   "preciptation" = Precipitacao,
-                  "tempreture" = "Temp Comp Media") %>%
+                  "temperature" = "Temp Comp Media") %>%
     mutate(date = as.Date(date, format = "%d/%m/%Y")) %>%
     group_by(date) %>%
-    summarize(temp = mean(tempreture, na.rm = TRUE),
+    summarize(temp = mean(temperature, na.rm = TRUE),
               precip = mean(preciptation, na.rm = TRUE))
 
 
@@ -60,11 +60,11 @@ ggsave("Figures/precip_date.jpg",
 barzil = brazil_file %>%
     dplyr::select("date" = Data,
                   "preciptation" = Precipitacao,
-                  "tempreture" = "Temp Comp Media") %>%
+                  "temperature" = "Temp Comp Media") %>%
     mutate(date = as.Date(date, format = "%d/%m/%Y"),
            week = floor_date(date, "week")) %>%
     group_by(week) %>%
-    summarize(temp = mean(tempreture, na.rm = TRUE),
+    summarize(temp = mean(temperature, na.rm = TRUE),
               precip = mean(preciptation, na.rm = TRUE))
 
 
@@ -91,7 +91,7 @@ fig_temp_week = ggplot(barzil, aes(x = week, y = temp)) +
     theme_minimal()+
     stat_smooth(formula = "y ~ x",
                 method = "loess") + 
-    labs(title = "Brazil weekly tempreture change (1961-2019)",
+    labs(title = "Brazil weekly temperature change (1961-2019)",
          x = "Date",
          y = "Temprature")
 
@@ -109,11 +109,11 @@ ggsave("Figures/temp_week.jpg",
 barzil = brazil_file %>%
     dplyr::select("date" = Data,
                   "preciptation" = Precipitacao,
-                  "tempreture" = "Temp Comp Media") %>%
+                  "temperature" = "Temp Comp Media") %>%
     mutate(date = as.Date(date, format = "%d/%m/%Y"),
            month = floor_date(date, "month")) %>%
     group_by(month) %>%
-    summarize(temp = mean(tempreture, na.rm = TRUE),
+    summarize(temp = mean(temperature, na.rm = TRUE),
               precip = mean(preciptation, na.rm = TRUE))
 
 
@@ -122,7 +122,7 @@ fig_temp_month = ggplot(barzil, aes(x = month, y = temp)) +
     theme_minimal()+
     stat_smooth(formula = "y ~ x",
                 method = "loess") + 
-    labs(title = "Brazil monthly tempreture change (1961-2019)",
+    labs(title = "Brazil monthly temperature change (1961-2019)",
          x = "Date",
          y = "Temprature")
 
@@ -184,11 +184,11 @@ aegypti_brazil = mean(aeg_re$aegypti, na.rm = TRUE)
 brazil = brazil_file %>%
     dplyr::select("date" = Data,
                   "preciptation" = Precipitacao,
-                  "tempreture" = "Temp Comp Media") %>%
+                  "temperature" = "Temp Comp Media") %>%
     mutate(date = as.Date(date, format = "%d/%m/%Y"),
            week = floor_date(date, "week")) %>%
     group_by(week) %>%
-    summarize(t = mean(tempreture, na.rm = TRUE),
+    summarize(t = mean(temperature, na.rm = TRUE),
               r = mean(preciptation, na.rm = TRUE))
     
 

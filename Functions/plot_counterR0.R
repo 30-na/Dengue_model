@@ -1,7 +1,8 @@
 library(plotly)
 library(dplyr)
 library(tidyr)
-
+library(wesanderson)
+library(viridis)
 
 #  fix the value of the exposure risk to its max value, and same for the mosquito occurrence probability
 load("processedData/aegypti.rda")
@@ -103,11 +104,12 @@ risk_exposure = max(globalEconomic$R_se, na.rm = TRUE)
         ylab("Precipitation") +
         guides(fill = guide_legend(title = "R0"))+
         xlim(c(20,35))+
-        ylim(c(0,40))+
+        ylim(c(0,50))+
         theme_bw()+
-        geom_contour_filled() +
+        geom_contour_filled(breaks= seq(0,20,2)) +
+        scale_fill_viridis_d(begin = 0, end = 1) +
         geom_contour(color = "black",
-                     alpha=.5)  
+                     alpha=.5) 
     
     ggsave("Figures/r0_contour_inverse.jpg",
            r0_contour_inverse,
@@ -122,11 +124,11 @@ risk_exposure = max(globalEconomic$R_se, na.rm = TRUE)
         labs(title = "Quadratic R0")+
         xlab("Temperature") +
         ylab("Precipitation") +
-        guides(fill = guide_legend(title = "R0"))+
         xlim(c(20,35))+
-        ylim(c(0,130))+
+        ylim(c(0,125))+
         theme_bw()+
-        geom_contour_filled() +
+        geom_contour_filled(breaks= seq(0,20,2)) +
+        scale_fill_viridis_d(begin = 0, end = .6) +
         geom_contour(color = "black",
                      alpha=.5)  
     
@@ -134,3 +136,24 @@ risk_exposure = max(globalEconomic$R_se, na.rm = TRUE)
            r0_contour_quad,
            height=4,width=8,scale=1.65)
 
+    
+    
+    r0_contour_briere = ggplot(data=df, aes(x = t,
+                                          y = r,
+                                          z = r0_briere))  +
+        #stat_contour(geom = "polygon") +
+        labs(title = "Breier R0")+
+        xlab("Temperature") +
+        ylab("Precipitation") +
+        guides(fill = guide_legend(title = "R0"))+
+        xlim(c(20,35))+
+        ylim(c(0,250))+
+        theme_bw()+
+        geom_contour_filled(breaks= seq(0,20,2)) +
+        scale_fill_viridis_d(begin = 0, end = .8) +
+        geom_contour(color = "black",
+                     alpha=.5) 
+    
+    ggsave("Figures/r0_contour_briere.jpg",
+           r0_contour_briere,
+           height=4,width=8,scale=1.65)

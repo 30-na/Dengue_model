@@ -22,7 +22,8 @@ runR0 = function(month){
                B_vh = ifelse(t <= 17.05 | t >= 35.83,
                              0,
                              8.49*10^(-4)*t*(t-17.05)*sqrt(35.83-t)),
-               # beta_hv = 4.91E-04*T*(T-12.22)*(37.46-T)^0.5(corrected formula)
+               
+               # βhv = 4.91E-04*T*(T-12.22)*(37.46-T)^0.5(corrected formula)
                B_hv = ifelse(t <= 12.22 | t >= 37.46,
                              0,
                              4.91*10^(-04)*t*(t-12.22)*sqrt(37.46-t)),
@@ -47,19 +48,19 @@ runR0 = function(month){
                            Inf,
                            1/(-3.02*10^(-1)*(t-11.25)*(t-37.22))),
                gamma = 1/5,
-               K = 20,
-               N_h = 1,
+               K = 20, # corrected
+               N_h = 1, #corrected
                c_briere = 7.86*10^(-5),
-               z_briere = .05,
+               z_briere = .05, # corrected 0.28
                c_quad = -5.99*10^(-3),
                z_quad = 0.025,
                z_inverse = 0.6,
                # 246 corrected value
-               FR_briere = ifelse(r > 246 | r < 0,
+               FR_briere = ifelse(r <= 1 | r >= 246,
                                   0,
-                                  c_briere*r*(r-0)*sqrt(246-r)*z_briere),
+                                  c_briere*r*(r-1)*sqrt(246-r)*z_briere),
                
-               FR_quad = ifelse(r < 1 | r > 123,
+               FR_quad = ifelse(r <= 1 | r >= 123,
                                 0,
                                 c_quad*(r-1)*(r-123)*z_quad),
                
@@ -106,3 +107,4 @@ runR0 = function(month){
  }
 
 #runR0("July")
+ 

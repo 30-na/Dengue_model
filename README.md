@@ -16,3 +16,15 @@ Geophysically scaled dataset linking per capita gross product (GDP) at purchasin
 4. [Human Population Density](https://hub.worldpop.org/project/categories?id=18)  
 We will use the Unconstrained individual countries 2000-2020 UN adjusted (1 km resolution). This will need to be changed to match the 5 km x 5 km resolution of the other data sets.
 --------------------------
+# Missing values
+We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
+
+# Corrected Values in initial document
+K = 20,  
+N_h (Human Population Density) = 1  
+Z_briere (Scaling factor) = 0.05  
+Briere_min = 1  
+Briere _max = 246   
+Quad_min = 1  
+Quad_max = 123  
+

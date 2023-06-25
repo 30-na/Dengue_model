@@ -22,6 +22,19 @@ The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) g
 # Missing values
 We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
 
+# Dengue Carrying Capacity model parameter settings for rainfall
+![image](https://github.com/30-na/Dengue_model/assets/78888004/9f2c9b86-0770-44f8-bb74-291c90b6d5af)
+
+where:
+* c_briere = 7.86 * 10 ^ (-5)  
+* z_briere = .28  
+* c_quad = -5.99 * 10 ^ (-3)  
+* z_quad = 0.025  
+* z_inverse = 0.6  
+* Rmin = 1
+* Rmax_briere = 246
+* Rmax_quad = 123  
+
 # Dengue Model
 ![image](https://github.com/30-na/Dengue/assets/78888004/f50ed169-30bb-4425-b74c-2a01612ce84b)
 
@@ -40,4 +53,7 @@ Briere_min = 1
 Briere _max = 246   
 Quad_min = 1  
 Quad_max = 123  
+
+# Refrences
+[Climate predicts geographic and temporal variation in mosquito-borne disease dynamics on two continents](https://www.nature.com/articles/s41467-021-21496-7)
 

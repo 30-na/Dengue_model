@@ -22,6 +22,10 @@ The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) g
 # Missing values
 We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
 
+# Dengue Carrying Capacity model parameter settings for rainfall
+![image](https://github.com/30-na/Dengue_model/assets/78888004/84eb772c-74d8-4557-8d20-69eeb5650d40)
+
+
 # Dengue Model
 ![image](https://github.com/30-na/Dengue/assets/78888004/f50ed169-30bb-4425-b74c-2a01612ce84b)
 

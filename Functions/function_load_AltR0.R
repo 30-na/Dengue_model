@@ -17,6 +17,10 @@ runR0 = function(month) {
         left_join(globalEconomic, by = c("x", "y")) %>%
 
         mutate(
+            ## f(R) may have to divide R by 2 (r/2)
+            r = (r/2),
+            
+            
               # b = Mosquito biting rate
               b = ifelse(t <= 13.35 | t >= 40.08,
                           0,
@@ -46,7 +50,7 @@ runR0 = function(month) {
 
               # t (air) used to generate the temperature of the water (tw).
               # alpha = 0.5, delta = 2
-              tw = .5 * t + 2,
+              tw = (.5 * t) + 2,
 
               # Probability of surviving from egg to adult
               nu = ifelse(t <= 13.56 | t >= 38.29,
@@ -58,8 +62,11 @@ runR0 = function(month) {
                            0,
                            -5.99 * 10 ^ (-3) * (tw - 38.29) * (tw - 13.56)),
 
-              # Rainfall-dependent egg hatching rate
-              dR = -2.29574 * (r ^ 2 - 1.18161 * r),
+              # Rainfall-dependent egg hatching rate the value is zero outside the range. Here the range is daily R>1.18
+              # For dR, you may have to divide R by the number of days of the given months (31 for January) ((r*2)/31) (r is divided by 2 before)
+              dR = ifelse(((r*2)/31) >= 1.18,
+                          0,
+                          -2.29574 * (((r*2)/31) ^ 2 - 1.18161 * ((r*2)/31))),
 
               # Rate at which an egg develops into an adult mosquito
               phi = ifelse(t <= 11.36 | t >= 39.17,
@@ -94,6 +101,7 @@ runR0 = function(month) {
   # 246 corrected value
 
               # rMIN = 1, rMAX = 246
+              
               FR_briere = ifelse(r <= 1 | r >= 246,
                                   0,
                                   c_briere * r * (r - 1) * sqrt(246 - r) * z_briere),
@@ -107,7 +115,7 @@ runR0 = function(month) {
  
               r0_A_briere = ifelse(is.na(R_se),
                                   NA_real_,
-                                  ifelse((theta * nu * phi) < (mu ^ 2) | is.infinite(FR_briere),
+                                  ifelse(is.infinite(FR_briere),
                                          0,
                                          sqrt(
                                             (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_briere) / 
@@ -127,7 +135,7 @@ runR0 = function(month) {
                                   ),
              r0_A_inverse = ifelse(is.na(R_se),
                                   NA_real_,
-                                  ifelse((theta * nu * phi) < (mu ^ 2) | is.infinite(FR_inverse),
+                                  ifelse(is.infinite(FR_inverse),
                                          0,
                                          sqrt(
                                             (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_inverse) / 
@@ -151,8 +159,29 @@ runR0 = function(month) {
 }
 
 runR0("January")
-load("processedData/R0_A_January.rda")
-summary(R0)
+
+# debuging 
+# load("processedData/R0_A_January.rda")
+# summary(R0)
+# R = R0 %>%
+#     filter(
+#         t>20,
+#         t<30,
+#         !is.na(R_se),
+#         nu_tw != 0,
+#         dR != 0
+#     )
+# 
+# 
+# R = R[R$t<30,]
+# R = R[!is.na(R$R_se),]
+# a = R[19,]
+# attach(a)
+# load("processedData/World/January.rda")
+# summary(climate)
+# 
+# 
+
 
 monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 

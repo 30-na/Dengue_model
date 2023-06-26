@@ -59,7 +59,7 @@ runR0 = function(month) {
                            -5.99 * 10 ^ (-3) * (tw - 38.29) * (tw - 13.56)),
 
               # Rainfall-dependent egg hatching rate
-              dR = -2.29574 * (R ^ 2 - 1.18161 * R),
+              dR = -2.29574 * (r ^ 2 - 1.18161 * r),
 
               # Rate at which an egg develops into an adult mosquito
               phi = ifelse(t <= 11.36 | t >= 39.17,
@@ -104,23 +104,23 @@ runR0 = function(month) {
                                 c_quad * (r - 1) * (r - 123) * z_quad),
 
               FR_inverse = (1 / r) * z_inverse,
-
+ 
               r0_A_briere = ifelse(is.na(R_se),
                                   NA_real_,
                                   ifelse((theta * nu * phi) < (mu ^ 2) | is.infinite(FR_briere),
                                          0,
                                          sqrt(
-                                            (b ^ 2 * B_vh * B_hv * sigma_v * R_se * e^((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_briere) / 
+                                            (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_briere) / 
                                             (gamma * mu * (sigma_v + mu) * N_h)
                                             )
                                         )
                                   ),
               r0_A_quadratic = ifelse(is.na(R_se),
                                   NA_real_,
-                                  ifelse((theta * nu * phi) < (mu ^ 2) | is.infinite(FR_quad),
+                                  ifelse(is.infinite(FR_quad),
                                          0,
                                          sqrt(
-                                            (b ^ 2 * B_vh * B_hv * sigma_v * R_se * e^((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_quad) / 
+                                            (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_quad) / 
                                             (gamma * mu * (sigma_v + mu) * N_h)
                                             )
                                         )
@@ -130,26 +130,29 @@ runR0 = function(month) {
                                   ifelse((theta * nu * phi) < (mu ^ 2) | is.infinite(FR_inverse),
                                          0,
                                          sqrt(
-                                            (b ^ 2 * B_vh * B_hv * sigma_v * R_se * e^((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_inverse) / 
+                                            (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_inverse) / 
                                             (gamma * mu * (sigma_v + mu) * N_h)
                                             )
                                         )
                                   ),
                                 
-            ) %>%
-            dplyr::select(
-                x,
-                y,
-                r0_A_briere,
-                r0_A_quadratic,
-                r0_A_inverse)
+            )
+  #%>%
+    #        dplyr::select(
+  #              x,
+    #            y,
+     #           r0_A_briere,
+     #           r0_A_quadratic,
+       #         r0_A_inverse)
 
   save(R0,
-         file = paste("processedData/R0_", month, ".rda", sep = ""))
+         file = paste("processedData/R0_A_", month, ".rda", sep = ""))
 
 }
 
-
+runR0("January")
+load("processedData/R0_A_January.rda")
+summary(R0)
 
 monthname = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 

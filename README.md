@@ -57,3 +57,10 @@ Quad_max = 123
 # Refrences
 [Climate predicts geographic and temporal variation in mosquito-borne disease dynamics on two continents](https://www.nature.com/articles/s41467-021-21496-7)
 
+[Global risk model for vector-borne transmission of Zika virus reveals the role of El Niño 2015](https://www.pnas.org/doi/10.1073/pnas.1614303114)
+
+[Geographical distribution of the association between El NiñoSouth   Oscillation   and   dengue   fever   in   the   Americas:a   continental   analysis   using   geographical   informationsystem-based techniques](https://geospatialhealth.net/index.php/gh/article/view/12/12)
+
+[Sensitivity of large dengue epidemics in Ecuador to long-lead predictions of El Niño
+](https://www.sciencedirect.com/science/article/pii/S2405880718300347)
+

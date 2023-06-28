@@ -36,11 +36,11 @@ where:
 * Rmax_quad = 123  
 
 # Dengue Model
-![image](https://github.com/30-na/Dengue/assets/78888004/f50ed169-30bb-4425-b74c-2a01612ce84b)
+![image](https://github.com/30-na/Dengue_model/assets/78888004/76afa7f0-3190-469c-8e0f-9516fad1fdf1)
 
 # Alternative Model
 
-![image](https://github.com/30-na/Dengue/assets/78888004/caebb41e-da31-4ca2-9d84-3767d239381e)
+![image](https://github.com/30-na/Dengue_model/assets/78888004/23bb7f83-7530-4c0e-81b2-2d02befaaba7)
 
 # Dengue R0 model parameter
 

@@ -47,12 +47,7 @@ where:
 T = Temperature (C)  
 b_v = Mosquito biting rate  
 K = 20,  
-N_h (Human Population Density) = 1  
-Z_briere (Scaling factor) = 0.05  
-Briere_min = 1  
-Briere _max = 246   
-Quad_min = 1  
-Quad_max = 123  
+N_h (Human Population Density) = 1   
 
 # Refrences
 [Climate predicts geographic and temporal variation in mosquito-borne disease dynamics on two continents](https://www.nature.com/articles/s41467-021-21496-7)

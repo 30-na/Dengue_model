@@ -166,8 +166,7 @@ runR0 = function(month) {
                                            )
                                     )
             )
-        ) 
-    %>%
+        ) %>%
         dplyr::select(
             x,
             y,

@@ -64,9 +64,12 @@ runR0 = function(month) {
             
             # Rainfall-dependent egg hatching rate the value is zero outside the range. Here the range is daily R>1.18
             # For dR, you may have to divide R by the number of days of the given months (31 for January) ((r*2)/31) (r is divided by 2 before)
-            dR = ifelse(((r*2)/31) >= 1.18,
-                        0,
-                        -2.29574 * (((r*2)/31) ^ 2 - 1.18161 * ((r*2)/31))),
+            # dR = ifelse(((r*2)/31) >= 1.18,
+            #             0,
+            #             -2.29574 * (((r*2)/31) ^ 2 - 1.18161 * ((r*2)/31))),
+            # 
+            dR = 1,
+            
             
             # Rate at which an egg develops into an adult mosquito
             # phi = ifelse(t <= 11.36 | t >= 39.17,
@@ -117,7 +120,7 @@ runR0 = function(month) {
             # R0 Model (briere)
             r0_briere = ifelse(is.na(R_se),
                                NA_real_,
-                               ifelse(is.infinite(FR_briere),
+                               ifelse(is.infinite(FR_briere) |(theta*nu_tw*phi_tw) < mu^2,
                                       0,
                                       sqrt(
                                           ((b ^ 2) * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1 - (mu^2 / (theta * nu_tw * dR * phi_tw)))) / 
@@ -130,7 +133,7 @@ runR0 = function(month) {
             # R0 Model (quadratic)
             r0_quadratic = ifelse(is.na(R_se),
                                   NA_real_,
-                                  ifelse(is.infinite(FR_quad),
+                                  ifelse(is.infinite(FR_quad)|(theta*nu_tw*phi_tw) < mu^2,
                                          0,
                                          sqrt(
                                              (b ^ 2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1 - (mu^2 / (theta * nu_tw * dR * phi_tw)))) / 
@@ -146,7 +149,7 @@ runR0 = function(month) {
                                         0,
                                         sqrt(
                                             (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_briere) / 
-                                                (gamma * mu * (sigma_v + mu) * N_h)
+                                                (gamma * N_h * mu^3)
                                         )
                                  )
             ),
@@ -159,11 +162,12 @@ runR0 = function(month) {
                                            0,
                                            sqrt(
                                                (b ^ 2 * B_vh * B_hv * R_se * exp((-1*mu) / sigma_v) * theta * nu_tw * dR *  phi_tw * P_ae * FR_quad) / 
-                                                   (gamma * mu * (sigma_v + mu) * N_h)
+                                                   (gamma * N_h * mu^3)
                                            )
                                     )
             )
-        ) %>%
+        ) 
+    %>%
         dplyr::select(
             x,
             y,
@@ -209,4 +213,4 @@ for (i in 1:length(monthname)) {
     runR0(monthname[i])
 }
 
-#runR0("July")
+# runR0("January")

@@ -43,6 +43,10 @@ where:
 ![image](https://github.com/30-na/Dengue_model/assets/78888004/23bb7f83-7530-4c0e-81b2-2d02befaaba7)
 
 # Dengue R0 model parameter
+![image](https://github.com/30-na/Dengue_model/assets/78888004/c1d223e7-9138-4969-868a-e584b3623409)
+![image](https://github.com/30-na/Dengue_model/assets/78888004/0fc7e724-df81-4ea8-9e43-ecefc056c71d)
+![image](https://github.com/30-na/Dengue_model/assets/78888004/c0f22535-b6c1-40e3-819a-5744f9f83f86)
+
 
 T = Temperature (C)  
 b_v = Mosquito biting rate  

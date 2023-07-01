@@ -147,6 +147,13 @@ ggsave(paste("Figures/quadratic/r0_A_", month, "quadratic.jpg", sep="_"),
 }
 
 
+# saveMapMonth("January")
 
+monthname = c("January", "February", "March",
+              "April", "May", "June", "July",
+              "August", "September", "October",
+              "November", "December")
 
-saveMapMonth("January")
+for (i in 1:length(monthname)){
+    saveMapMonth(monthname[i])
+}

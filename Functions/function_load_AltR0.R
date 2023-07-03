@@ -92,7 +92,8 @@ runR0 = function(month) {
             gamma = 1 / 5,
             
             # Maximum Human to Mosquito Ratio: (vector carrying capacity/human population density)
-            K = 20, # corrected
+            # change k/N_H in the base model to 0.975
+            K = 0.975, # corrected
             
             N_h = 1, #corrected
             

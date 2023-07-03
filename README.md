@@ -11,7 +11,7 @@ Uncertainty estimates for mosquito distribution at 5 km x 5 km resolution (R dat
 (Kraemer et al., 2015)
 
 3. [Geolocalized Economic Data](https://gecon.yale.edu/data-and-documentation-g-econ-project).
-Geophysically scaled dataset linking per capita gross product (GDP) at purchasing power parity (PPP) rates (recomputed to change 1 km x 1 km to match 5 km x 5 km resolution of other data)
+Geophysically scaled dataset linking per capita gross product (GDP) at purchasing power parity (PPP) rates. The G-Econ project is gridded data set at a 1 degree longitude by 1 degree latitude resolution. This is approximately 100 km by 100 km.  
 
 4. [Human Population Density](https://hub.worldpop.org/project/categories?id=18)  
 We will use the Unconstrained individual countries 2000-2020 UN adjusted (1 km resolution). This will need to be changed to match the 5 km x 5 km resolution of the other data sets.

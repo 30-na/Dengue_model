@@ -10,7 +10,7 @@ Monthly [min](https://biogeo.ucdavis.edu/data/worldclim/v2.1/base/wc2.1_2.5m_tmi
 Uncertainty estimates for mosquito distribution at 5 km x 5 km resolution (R datafiles and Aedes maps)
 (Kraemer et al., 2015)
 
-3. [Geolocalized Economic Data]().
+3. [Geolocalized Economic Data](https://gecon.yale.edu/data-and-documentation-g-econ-project).
 Geophysically scaled dataset linking per capita gross product (GDP) at purchasing power parity (PPP) rates (recomputed to change 1 km x 1 km to match 5 km x 5 km resolution of other data)
 
 4. [Human Population Density](https://hub.worldpop.org/project/categories?id=18)  

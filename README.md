@@ -17,7 +17,10 @@ Geophysically scaled dataset linking per capita gross product (GDP) at purchasin
 We will use the Unconstrained individual countries 2000-2020 UN adjusted (1 km resolution). This will need to be changed to match the 5 km x 5 km resolution of the other data sets.
 
 5. [CHC-CMIP6](https://www.chc.ucsb.edu/data)  
-The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) grids of observational and projected CHIRTS temperature, CHIRPS precipitation, ERA5-derived relative humidity, vapor pressure deficit (VPD), and maximum Wet Bulb Globe Temperatures (WBGTmax) 
+The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) grids of observational and projected CHIRTS temperature, CHIRPS precipitation, ERA5-derived relative humidity, vapor pressure deficit (VPD), and maximum Wet Bulb Globe Temperatures (WBGTmax)
+
+6. [Terrestrial Air Temperature and Precipitation: 1900-2014 Gridded Monthly Time Series](https://psl.noaa.gov/data/gridded/data.UDel_AirT_Precip.html)  
+    Long term monthly means, derived from data for years 1981 - 2010 V5.01. 0.5 degree latitude x 0.5 degree longitude global grid (720x360).
 --------------------------
 # Missing values
 We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data

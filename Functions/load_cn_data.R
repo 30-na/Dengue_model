@@ -10,6 +10,14 @@ ncname <- "Complete_TAVG_LatLong1.nc"
 ncfname <- paste(ncpath, ncname, sep="")
 
 
+
+
+
+# open a netCDF file
+ncin <- nc_open(ncfname)
+print(ncin)
+
+
 # set the variable names
 names(ncin$var)
 dname <- "temperature"  # note: tmp means temperature (not temporary)
@@ -24,11 +32,6 @@ y = "latitude"
 t = "time"
 
 
-
-
-# open a netCDF file
-ncin <- nc_open(ncfname)
-print(ncin)
 
 
 # get longitude

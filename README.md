@@ -21,6 +21,9 @@ The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) g
 
 6. [Terrestrial Air Temperature and Precipitation: 1900-2014 Gridded Monthly Time Series](https://psl.noaa.gov/data/gridded/data.UDel_AirT_Precip.html)  
     Long term monthly means, derived from data for years 1981 - 2010 V5.01. 0.5 degree latitude x 0.5 degree longitude global grid (720x360).
+
+7. [CRU TS4.06: Climatic Research Unit (CRU) Time-Series (TS) version 4.06 of high-resolution gridded data of month-by-month variation in climate (Jan. 1901- Dec. 2021)](https://catalogue.ceda.ac.uk/uuid/e0b4e1e56c1c4460b796073a31366980)   
+The gridded Climatic Research Unit (CRU) Time-series (TS) data version 4.06 data are month-by-month variations in climate over the period 1901-2021, provided on high-resolution (0.5x0.5 degree) grids, produced by CRU at the University of East Anglia and funded by the UK National Centre for Atmospheric Science (NCAS), a NERC collaborative centre.
 --------------------------
 # Missing values
 We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data

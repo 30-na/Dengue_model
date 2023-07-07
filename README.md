@@ -26,7 +26,8 @@ The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) g
 The gridded Climatic Research Unit (CRU) Time-series (TS) data version 4.06 data are month-by-month variations in climate over the period 1901-2021, provided on high-resolution (0.5x0.5 degree) grids, produced by CRU at the University of East Anglia and funded by the UK National Centre for Atmospheric Science (NCAS), a NERC collaborative centre.
 --------------------------
 # Missing values
-We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
+%% We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
+Replacing G-Econ data for countries with NA values in 2005 (PPP2005_40) with the corresponding values from 1990 (PPP1990_40).   
 
 # Dengue Carrying Capacity model parameter settings for rainfall
 ![image](https://github.com/30-na/Dengue_model/assets/78888004/9f2c9b86-0770-44f8-bb74-291c90b6d5af)
@@ -57,7 +58,49 @@ where:
 T = Temperature (C)  
 b_v = Mosquito biting rate  
 K = 20,  
-N_h (Human Population Density) = 1   
+N_h (Human Population Density) = 1  
+
+# Functions
+
+* R0_Calculation_Amber.R  
+Description: Calculates R0 number using at Amber project. 
+
+* R0_Calculation_Brazil.R  
+Description: Calculates R0 number using the Brazil data.
+
+* R0_Calculation_WorldClim.R   
+Description: Calculates R0 number based on WorldClim data.
+
+* download_WorldClim_data.R  
+Description: Downloads WorldClim climate data for further analysis.
+
+* load_CEDA_precipitation.R  
+Description: Loads precipitation data from CEDA (Climate and Environmental Data Archive).
+
+* load_CEDA_temperature.R  
+Description: Loads temperature data from CEDA (Climate and Environmental Data Archive).
+
+* load_WorldClim_data.R  
+Description: Loads WorldClim climate data for analysis.  
+
+* load_geolocalized_economic_data.R  
+Description: Loads geolocalized economic data, replacing G-Econ data for countries with N/A values in 2005.
+
+* load_global_aedes_distribution_data.R  
+Description: Loads global Aedes distribution data for analysis.
+
+* load_human_population_density_data.R  
+Description: Loads human population density data for analysis.
+
+* plot_R0_WorldClim.R  
+Description: Generates a plot of R0 values based on WorldClim data.
+
+* plot_counterR0.R  
+Description: Generates a plot with contour lines for the Briere function.
+
+* plot_rawData_WorldClim.R  
+Description: Generates a plot of raw data from WorldClim.
+
 
 # Refrences
 [Climate predicts geographic and temporal variation in mosquito-borne disease dynamics on two continents](https://www.nature.com/articles/s41467-021-21496-7)

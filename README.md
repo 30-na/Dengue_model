@@ -26,7 +26,7 @@ The CHC-CMIP6 dataset provides global, daily, high spatial resolution (0.05°) g
 The gridded Climatic Research Unit (CRU) Time-series (TS) data version 4.06 data are month-by-month variations in climate over the period 1901-2021, provided on high-resolution (0.5x0.5 degree) grids, produced by CRU at the University of East Anglia and funded by the UK National Centre for Atmospheric Science (NCAS), a NERC collaborative centre.
 --------------------------
 # Missing values
-%% We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data
+<!-- We replace Somalia PPP2005_40 value with the lowest Djibouti PPP2005_40 value in Geolocalized Economic Data -->  
 Replacing G-Econ data for countries with NA values in 2005 (PPP2005_40) with the corresponding values from 1990 (PPP1990_40).   
 
 # Dengue Carrying Capacity model parameter settings for rainfall

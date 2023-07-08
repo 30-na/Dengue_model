@@ -71,7 +71,7 @@ save(precip_data,
 
 
 # Create the ggplot object and specify the aesthetics and geometry
-g = ggplot(temp_data %>% filter(Date == "2005-06-15"),
+g = ggplot(precip_data %>% filter(Date == "2005-06-15"),
            aes(x = Longitude,
                y = Latitude,
                color = Precipitation)) +

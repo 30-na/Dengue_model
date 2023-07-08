@@ -3,6 +3,8 @@
 library(ncdf4)
 library(dplyr)
 library(reshape2)
+library(ggplot2)
+library(viridis)
 
 
 # open netCDF file teperature
@@ -52,11 +54,35 @@ long_temp <- melt(temp_array)
 # Rename the columns
 colnames(long_temp) <- c("Longitude", "Latitude", "Date", "Temperature")
 
+# Create vectors for standard latitude and longitude ranges
+standard_latitude <- seq(-90, 90, length.out = 360)
+standard_longitude <- seq(-180, 180, length.out = 720)
+
 # add date
 temp_data = long_temp %>%
-    mutate(Date = rep(date, each = (dim(temp_array)[1] * dim(temp_array)[2])))
+    mutate(Date = rep(date, each = (dim(temp_array)[1] * dim(temp_array)[2])),
+           Latitude = standard_latitude[Latitude],
+           Longitude = standard_longitude[Longitude]
+           )
 
 # save file as RDA
 save(temp_data,
      file = "processedData/CEDA_temp_data.rda")
+
+
+
+# Create the ggplot object and specify the aesthetics and geometry
+g = ggplot(temp_data %>% filter(Date == "2005-06-15"),
+           aes(x = Longitude,
+               y = Latitude,
+               color = Temperature)) +
+    geom_point() +
+    scale_color_viridis(option = "magma", direction = -1) +
+    labs(title = "Random Temperature Sample from CEDA Dataset (2005-06-15)",
+         x = "Longitude",
+         y = "Latitude")
+
+ggsave("Figures/CEDA_sample_temp.jpg",
+       g,
+       height=4,width=8,scale=1.65)
 

@@ -3,7 +3,8 @@
 library(ncdf4)
 library(dplyr)
 library(reshape2)
-
+library(ggplot2)
+library(viridis)
 
 #open netCDF files precipitation
 nc_precip = nc_open("Data/cru_ts4.06.1901.2021.pre.dat.nc")
@@ -52,10 +53,34 @@ long_precip <- melt(precip_array)
 # Rename the columns
 colnames(long_precip) <- c("Longitude", "Latitude", "Date", "Precipitation")
 
-# add date
+# Create vectors for standard latitude and longitude ranges
+standard_latitude <- seq(-90, 90, length.out = 360)
+standard_longitude <- seq(-180, 180, length.out = 720)
+
+# add date and standardize the cordination
 precip_data = long_precip %>%
-    mutate(Date = rep(date, each = (dim(precip_array)[1] * dim(precip_array)[2])))
+    mutate(Date = rep(date, each = (dim(precip_array)[1] * dim(precip_array)[2])),
+           Latitude = standard_latitude[Latitude],
+           Longitude = standard_longitude[Longitude]
+    )
+
 
 # save file as RDA
 save(precip_data,
      file = "processedData/CEDA_precip_data.rda")
+
+
+# Create the ggplot object and specify the aesthetics and geometry
+g = ggplot(temp_data %>% filter(Date == "2005-06-15"),
+           aes(x = Longitude,
+               y = Latitude,
+               color = Precipitation)) +
+    geom_point() +
+    scale_color_viridis(option = "magma", direction = -1) +
+    labs(title = "Random Precipitation Sample from CEDA Dataset (2005-06-15)",
+         x = "Longitude",
+         y = "Latitude")
+
+ggsave("Figures/CEDA_sample_precip.jpg",
+       g,
+       height=4,width=8,scale=1.65)

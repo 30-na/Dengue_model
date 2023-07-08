@@ -94,33 +94,33 @@ globalEconomic = as.data.frame(RPP, xy = TRUE)
 save(globalEconomic,
      file = "processedData/globalEconomic.rda")
 
-
-#plot original map
-risk_expsure_map = ggplot() +
-    geom_tile(data = PPP , aes(x = x, y = y,
-                                         fill = R_se))+
-    scale_fill_viridis_c(direction = 1) +
-    ggtitle("Risk of Exposure")
-
-ggsave("Figures/risk_expsure_map.jpg",
-       risk_expsure_map,
-       height=4,width=8,scale=1.65)
-
-
-
-
-# plot resample map
-t_map = ggplot() +
-    geom_raster(data = globalEconomic , aes(x = x,
-                                     y = y,
-                                     fill = R_se)) +
-    scale_fill_viridis_c() +
-    coord_quickmap() +
-    labs(title  = "Risk of Exposure resample",
-         x = "",
-         y = "")
-
-ggsave("Figures/risk_expsure_map_resample.jpg",
-       t_map,
-       height=4,width=8,scale=1.65)
-
+# 
+# #plot original map
+# risk_expsure_map = ggplot() +
+#     geom_tile(data = PPP , aes(x = x, y = y,
+#                                          fill = R_se))+
+#     scale_fill_viridis_c(direction = 1) +
+#     ggtitle("Risk of Exposure")
+# 
+# ggsave("Figures/risk_expsure_map.jpg",
+#        risk_expsure_map,
+#        height=4,width=8,scale=1.65)
+# 
+# 
+# 
+# 
+# # plot resample map
+# t_map = ggplot() +
+#     geom_raster(data = globalEconomic , aes(x = x,
+#                                      y = y,
+#                                      fill = R_se)) +
+#     scale_fill_viridis_c() +
+#     coord_quickmap() +
+#     labs(title  = "Risk of Exposure resample",
+#          x = "",
+#          y = "")
+# 
+# ggsave("Figures/risk_expsure_map_resample.jpg",
+#        t_map,
+#        height=4,width=8,scale=1.65)
+# 

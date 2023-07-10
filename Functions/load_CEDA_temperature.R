@@ -55,8 +55,8 @@ long_temp <- melt(temp_array)
 colnames(long_temp) <- c("Longitude", "Latitude", "Date", "Temperature")
 
 # Create vectors for standard latitude and longitude ranges
-standard_latitude <- seq(-90, 90, length.out = 360)
-standard_longitude <- seq(-180, 180, length.out = 720)
+standard_latitude <- seq(-89.75, 89.75, length.out = 360)
+standard_longitude <- seq(-179.75, 179.75, length.out = 720)
 
 # add date
 temp_data = long_temp %>%

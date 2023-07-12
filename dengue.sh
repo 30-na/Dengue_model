@@ -16,9 +16,9 @@ echo Numeber of Task: $SLURM_NTASKS
 
 module load miniconda3
 source activate test1
-Rscript R0_Calculation_0.5Degree01.R
-Rscript R0_Calculation_0.5Degree02.R
-Rscript R0_Calculation_0.5Degree03.R
-Rscript R0_mergeR0.R
-
+##Rscript R0_Calculation_0.5Degree01.R
+##Rscript R0_Calculation_0.5Degree02.R
+##Rscript R0_Calculation_0.5Degree03.R
+##Rscript R0_mergeR0.R
+Rscript R0_statistics.R
 

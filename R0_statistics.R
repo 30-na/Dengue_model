@@ -22,6 +22,11 @@ df = R0_data %>%
                                   "July", "August", "September", "October", "November", "December"))
            )
 
+R0_30years = df %>%
+    dplyr::filter(Year >= 1990 & Year <= 2020)
+
+save(R0_30years,
+     file = "R0_30years.rda")
 
 R0YearStat = df %>%
     group_by(Year) %>%

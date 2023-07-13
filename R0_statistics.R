@@ -32,15 +32,7 @@ R0YearStat = df %>%
         mean_quad = mean(r0_quadratic, na.rm = T),
         mean_ber_alt = mean(r0_A_briere, na.rm = T),
         mean_quad_alt = mean(r0_A_quadratic, na.rm = T)
-    ) %>%
-    dplyr::mutate(
-        temp_diff = mean_temp - mean(mean_temp, na.rm = T),
-        prec_diff = mean_prec - mean(mean_prec, na.rm = T),
-        ber_diff = mean_ber - mean(mean_ber, na.rm = T),
-        quad_diff = mean_quad - mean(mean_quad , na.rm = T),
-        ber_alt_diff = mean_ber_alt - mean(mean_ber_alt , na.rm = T),
-        quad_alt_diff = mean_quad_alt - mean(mean_quad_alt, na.rm = T)
-    )
+    ) 
 
 print(R0YearStat)
 save(R0YearStat,

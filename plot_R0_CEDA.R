@@ -9,17 +9,32 @@ load("R0YearStat.rda")
 load("R0MonthStat.rda")
 
 # make a long data
-y_long = R0YearStat %>%
-    dplyr::select(Year, temp_diff:quad_alt_diff) %>%
-    melt()
-    
+
+
+y_long = R0YearStat %>% 
+    dplyr::filter(
+        Year >= 1990 & Year <= 2020
+        ) %>%
+    dplyr::mutate(
+        temp_diff = mean_temp - mean(mean_temp, na.rm = T),
+        prec_diff = mean_prec - mean(mean_prec, na.rm = T),
+        ber_diff = mean_ber - mean(mean_ber, na.rm = T),
+        quad_diff = mean_quad - mean(mean_quad , na.rm = T),
+        ber_alt_diff = mean_ber_alt - mean(mean_ber_alt , na.rm = T),
+        quad_alt_diff = mean_quad_alt - mean(mean_quad_alt, na.rm = T)
+        )%>%
+    dplyr::select(
+        Year, temp_diff:quad_alt_diff
+        ) %>%
+    reshape2::melt()
+
+
 names(R0YearStat)
 
 # Create the plot
-g_y <- ggplot(data = y_long %>%
-                  dpl, aes(x = Year, y = value, fill = factor(value < 0))) +
+g_y <- ggplot(data = y_long, aes(x = Year, y = value, fill = factor(value < 0))) +
     geom_col(col = "gray") +
-    scale_fill_manual(values = c("FALSE" = "steelblue", "TRUE" = "red")) +
+    scale_fill_manual(values = c("FALSE" = "red", "TRUE" = "steelblue")) +
     facet_wrap(~ variable,
                scale = "free_y",
                ncol = 1,
@@ -33,7 +48,7 @@ g_y <- ggplot(data = y_long %>%
     labs(title = "Standardized R0 anomalies with respect to 1990-2020",
          y = "",
          x = "") +
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 5, face = "bold")) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 10, face = "bold")) +
     guides(fill = FALSE)
 
 # Print the plots

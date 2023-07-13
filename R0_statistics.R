@@ -23,14 +23,6 @@ df = R0_data %>%
            )
 
 
-# calculate the average of the average
-average_temp = mean(R0MonthStat$mean_temp, na.rm = T)
-average_prec = mean(R0MonthStat$mean_prec, na.rm = T)
-average_berier = mean(R0MonthStat$mean_ber, na.rm = T)
-average_quad = mean(R0MonthStat$mean_quad , na.rm = T)
-average_berier_alter = mean(R0MonthStat$mean_ber_alt , na.rm = T)
-average_quad_alter = mean(R0MonthStat$mean_quad_alt, na.rm = T) 
-
 R0YearStat = df %>%
     group_by(Year) %>%
     dplyr::summarize(
@@ -42,12 +34,12 @@ R0YearStat = df %>%
         mean_quad_alt = mean(r0_A_quadratic, na.rm = T)
     ) %>%
     dplyr::mutate(
-        temp_diff = mean_temp - average_temp,
-        prec_diff = mean_prec - average_prec,
-        ber_diff = mean_ber - average_berier,
-        quad_diff = mean_quad - average_quad,
-        ber_alt_diff = mean_ber_alt - average_berier_alter,
-        quad_alt_diff = mean_quad_alt - average_quad_alter
+        temp_diff = mean_temp - mean(mean_temp, na.rm = T),
+        prec_diff = mean_prec - mean(mean_prec, na.rm = T),
+        ber_diff = mean_ber - mean(mean_ber, na.rm = T),
+        quad_diff = mean_quad - mean(mean_quad , na.rm = T),
+        ber_alt_diff = mean_ber_alt - mean(mean_ber_alt , na.rm = T),
+        quad_alt_diff = mean_quad_alt - mean(mean_quad_alt, na.rm = T)
     )
 
 print(R0YearStat)

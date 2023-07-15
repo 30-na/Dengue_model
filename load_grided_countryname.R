@@ -12,7 +12,7 @@ grid_country <- expand.grid(Latitude = seq(-89.75, 89.75, by = 0.5),
 
 country <- c()  # Initialize the 'country' vector
 
-for (i in 1:nrow(df)) {
+for (i in 1:nrow(grid_country)) {
     result <- tryCatch(
         {
             geonames::GNcountryCode(lat = grid_country[i, 1], lng = grid_country[i, 2])$countryName

@@ -23,12 +23,36 @@ df = R0_data %>%
                                   "July", "August", "September", "October", "November", "December"))
            )
 
+# add country to lat and long
+# Create the dataframe
+grid_df <- expand.grid(Latitude = seq(-89.75, 89.75, by = 0.5),
+                  Longitude = seq(-179.75, 179.75, by = 0.5))
+
+country <- character(nrow(df))  # Initialize the 'country' vector
+# due the geoname limitation we have to use for loop
+for (i in 1:nrow(grid_df)) {
+    result <- tryCatch(
+        {
+            geonames::GNcountryCode(lat = grid_df[i, 1], lng = grid_df[i, 2])$countryName
+        },
+        error = function(e) {
+            "Not Found"  # Assign a specific value for locations in the sea
+        }
+    )
+    grid_df$country[i] <- result
+    print(i)
+}
+
+save(grid_df,
+     file = "processedData/grid_df.rda")
+
+
 R0_30years = df %>%
     dplyr::filter(
         Year >= 1990 & Year <= 2020
         ) %>%
-    dplyr::mutate(
-        country = geonames::GNcountryCode(lat = Latitude , lng = Longitude)$countryName
+    left_join(
+        grid_df, by(c("Latitude", "Longitude"))
         )
 
 save(R0_30years,

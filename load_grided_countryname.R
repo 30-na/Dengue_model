@@ -6,34 +6,46 @@ library(geonames)
 
 options(geonamesUsername="30na")
 
-# Create the dataframe
-grid_country <- expand.grid(Latitude = seq(-89.75, 89.75, by = 0.5),
-                  Longitude = seq(-179.75, 179.75, by = 0.5))
+# load data
+load("processedData/R0_30years.rda")
 
-country <- c()  # Initialize the 'country' vector
+grid_data = R0_30years %>%
+    mutate(
+        na_res = is.na(Temperature)
+        )%>%
+    dplyr::select(
+        Longitude, Latitude, na_res
+        )%>%
+    dplyr::slice(
+        1:(720*360)
+    )
+    
+na_list = which(grid_data$na_res == FALSE)
 
-for (i in 1:nrow(grid_country)) {
+
+country = character(720*360)
+
+
+for (i in na_list) {
     result <- tryCatch(
         {
-            geonames::GNcountryCode(lat = grid_country[i, 1], lng = grid_country[i, 2])$countryName
+            geonames::GNcountryCode(lat = grid_data[i, 2], lng = grid_data[i, 1])$countryName
         },
         error = function(e) {
             "Not Found"  # Assign a specific value for locations in the sea
         }
     )
     country[i] <- result
-    print(i)
 }
 
-grid_country$country = country
+grid_country = grid_data %>%
+    dplyr::mutate(
+        country = ifelse(na_res, NA, country)
+    )
 
 
 save(grid_country,
      file = "processedData/grid_country.rda")
-
-
-
-
 
 
 

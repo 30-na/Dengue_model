@@ -6,7 +6,6 @@ library(ggplot2)
 
 # load the data
 load("processedData/R0_data.rda")
-options(geonamesUsername="30na")
 
     
 # summary statistics
@@ -24,16 +23,6 @@ df = R0_data %>%
            )
 
 
-R0_30years = df %>%
-    dplyr::filter(
-        Year >= 1990 & Year <= 2020
-        ) %>%
-    left_join(
-        grid_df, by(c("Latitude", "Longitude"))
-        )
-
-save(R0_30years,
-     file = "processedData/R0_30years.rda")
 
 R0YearStat = df %>%
     group_by(Year) %>%
@@ -46,9 +35,8 @@ R0YearStat = df %>%
         mean_quad_alt = mean(r0_A_quadratic, na.rm = T)
     ) 
 
-print(R0YearStat)
 save(R0YearStat,
-     file = "R0YearStat.rda")
+     file = "R0YearMean.rda")
 
 
 
@@ -66,4 +54,4 @@ R0MonthStat = df %>%
 print(R0MonthStat)
 
 save(R0MonthStat,
-     file = "R0MonthStat.rda")
+     file = "R0MonthMean.rda")

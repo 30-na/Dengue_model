@@ -36,7 +36,7 @@ R0YearStat = df %>%
     ) 
 
 save(R0YearStat,
-     file = "R0YearMean.rda")
+     file = "R0YearStat.rda")
 
 
 
@@ -54,4 +54,4 @@ R0MonthStat = df %>%
 print(R0MonthStat)
 
 save(R0MonthStat,
-     file = "R0MonthMean.rda")
+     file = "R0MonthStat.rda")

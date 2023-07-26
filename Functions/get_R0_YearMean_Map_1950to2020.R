@@ -2,7 +2,7 @@
 # load library
 library(dplyr)
 library(ggplot2)
-
+library(sf)
 
 # load the data
 load("processedData/R0_data.rda")

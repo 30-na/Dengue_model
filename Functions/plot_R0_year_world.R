@@ -167,8 +167,16 @@ plot_map_diff = function(var, tragetYear, model){
            height=4,width=8,scale=1.65)
 }
 
+plot_map_diff(var = "mean_ber_diff", tragetYear = 1997, model = "Briere")
+plot_map_diff(var = "mean_ber_diff", tragetYear = 1998, model = "Briere")
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2002, model = "Briere")
 plot_map_diff(var = "mean_ber_diff", tragetYear = 2010, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 2020, model = "Briere")
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2015, model = "Briere")
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2016, model = "Briere")
+plot_map_diff(var = "mean_quad_diff", tragetYear = 1997, model = "Quadratic")
+plot_map_diff(var = "mean_quad_diff", tragetYear = 1998, model = "Quadratic")
+plot_map_diff(var = "mean_quad_diff", tragetYear = 2002, model = "Quadratic")
+plot_map_diff(var = "mean_quad_diff", tragetYear = 2010, model = "Quadratic")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2015, model = "Quadratic")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2016, model = "Quadratic")
 

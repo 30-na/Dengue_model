@@ -23,6 +23,9 @@ df = R0_data %>%
         Month = factor(Month,
                        levels = c("January", "February", "March", "April", "May", "June",
                                   "July", "August", "September", "October", "November", "December"))
+    ) %>%
+    dplyr::filter(
+        Year >= 1950 & Year <= 2020
     )
 
 
@@ -44,6 +47,6 @@ R0_YearMean_Map = df %>%
 
 
 save(R0_YearMean_Map,
-     file = "R0_YearMean_Map.rda")
+     file = "R0_YearMean_Map_1950to2020.rda")
 
 

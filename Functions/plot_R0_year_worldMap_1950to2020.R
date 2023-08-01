@@ -75,7 +75,7 @@ plot_map = function(var, target_year){
            height=8,width=7,scale=1.65)
 }
 
-plot_map("mean_quad", 2015)
+#plot_map("mean_quad", 2015)
 
 
 ## plot map diff
@@ -116,7 +116,6 @@ R0.mean.diff = R0_YearMean_Map %>%
                                              "1.5+"),
                                   include.lowest = TRUE)
     )
-
 
 plot_map_diff = function(var, tragetYear, model){
     
@@ -169,16 +168,24 @@ plot_map_diff = function(var, tragetYear, model){
 }
 
 plot_map_diff(var = "mean_ber_diff", tragetYear = 1997, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 1998, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 2002, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 2010, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 2015, model = "Briere")
-plot_map_diff(var = "mean_ber_diff", tragetYear = 2016, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 1997, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 1998, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 1998, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2002, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2002, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2010, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2010, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2015, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2015, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2016, model = "Briere")
 plot_map_diff(var = "mean_quad_diff", tragetYear = 2016, model = "Quadratic")
+
+plot_map_diff(var = "mean_ber_diff", tragetYear = 2013, model = "Briere")
+plot_map_diff(var = "mean_quad_diff", tragetYear = 2013, model = "Quadratic")
 
 

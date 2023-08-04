@@ -1,6 +1,6 @@
 
 library(dplyr)
-load("processedData/R0_1950to2020.rda")
+load("R0_1950to2020.rda")
 
 R0MeanYearStat = R0 %>%
     group_by(Year) %>%
@@ -12,7 +12,7 @@ R0MeanYearStat = R0 %>%
     ) 
 
 save(R0MeanYearStat,
-     file = "processedData/R0MeanYearStat.rda")
+     file = "R0MeanYearStat.rda")
 
 
 
@@ -27,7 +27,7 @@ R0MeanMonthStat = R0 %>%
     )
 
 save(R0MeanMonthStat,
-     file = "processedData/R0MeanMonthStat.rda")
+     file = "R0MeanMonthStat.rda")
 
 
 
@@ -45,7 +45,7 @@ R0MaxStatMap = R0 %>%
     )
 
 save(R0MaxStatMap,
-     file = "processedData/R0MaxStatMap.rda")
+     file = "R0MaxStatMap.rda")
 
 
 
@@ -63,7 +63,7 @@ R0MeanStatMap = R0 %>%
     )
 
 save(R0MeanStatMap,
-     file = "processedData/R0MeanStatMap.rda")
+     file = "R0MeanStatMap.rda")
 
 
 
@@ -82,7 +82,7 @@ R0MeanYearStatMap = R0 %>%
     )
 
 save(R0MeanYearStatMap,
-     file = "processedData/R0MeanYearStatMap.rda")
+     file = "R0MeanYearStatMap.rda")
 
 
 
@@ -101,7 +101,7 @@ R0MeanMonthStatMap = R0 %>%
     )
 
 save(R0MeanMonthStatMap,
-     file = "processedData/R0MeanMonthStatMap.rda")
+     file = "R0MeanMonthStatMap.rda")
 
 
 

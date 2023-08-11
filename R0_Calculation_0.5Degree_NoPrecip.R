@@ -142,11 +142,11 @@ CalculateR0 = function(df){
 }
 
 # seperate dataset to solve memory error issue
-load("merged_input_Data.rda")
+load("processedData/merged_input_Data.rda")
 
 
 R0_data = merged_data %>%
 dplyr::filter(Date >= "1950-01-01") %>%
 CalculateR0()
-save(R0_data, file = "R0_data_NoPrecip.rda")
+save(R0_data, file = "processedData/R0_data_NoPrecip.rda")
 

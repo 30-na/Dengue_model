@@ -14,12 +14,7 @@ R0 = R0_data %>%
         Month = factor(Month,
                        levels = c("January", "February", "March", "April", "May", "June",
                                   "July", "August", "September", "October", "November", "December"))
-    ) %>%
-    dplyr::filter(
-        Year >= 1950 & Year <= 2020
-    )  %>%
-    dplyr::left_join(grid_country_clean,
-                     by=c("Longitude", "Latitude"))
+    )
 
 
 R0MeanYearStat = R0 %>%

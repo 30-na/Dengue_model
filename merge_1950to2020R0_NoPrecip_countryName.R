@@ -30,4 +30,4 @@ R0 = R0_data %>%
     dplyr::left_join(grid_country_clean,
                      by=c("Longitude", "Latitude"))
 save(R0,
-     file = "R0_1950to2020.rda")
+     file = "R0_1950to2020_NoPrecip.rda")

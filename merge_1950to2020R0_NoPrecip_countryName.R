@@ -15,7 +15,7 @@ load("processedData/grid_country_clean.rda")
 R0 = R0_data %>% 
     dplyr::rename(
         "Temperature" = t,
-        "Precipitation" = r
+        #"Precipitation" = r
     )%>%
     dplyr::mutate(
         Year = format(Date, "%Y"),

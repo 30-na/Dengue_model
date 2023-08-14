@@ -3,20 +3,10 @@ library(dplyr)
 load("processedData/R0_data_NoPrecip.rda")
 load("processedData/grid_country_clean.rda")
 
-names(R0_data)
-
 R0 = R0_data %>% 
     dplyr::rename(
         "Temperature" = t,
         #"Precipitation" = r
-    )%>%
-    dplyr::select(
-        Longitude,
-        Latitude,
-        Temperature,
-        Date,
-        r0_briere,
-        r0_quadratic
     )%>%
     dplyr::mutate(
         Year = format(Date, "%Y"),
@@ -25,9 +15,6 @@ R0 = R0_data %>%
                        levels = c("January", "February", "March", "April", "May", "June",
                                   "July", "August", "September", "October", "November", "December"))
     )
-
-save(R0,
-     file = "R0_1950to2020_NoPrecip.rda")
 
 
 R0MeanYearStat = R0 %>%

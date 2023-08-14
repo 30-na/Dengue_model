@@ -3,16 +3,18 @@ library(dplyr)
 load("processedData/R0_data_NoPrecip.rda")
 load("processedData/grid_country_clean.rda")
 
+names(R0_data)
+
 R0 = R0_data %>% 
     dplyr::rename(
         "Temperature" = t,
         #"Precipitation" = r
     )%>%
     dplyr::select(
+        Longitude,
+        Latitude,
         Temperature,
         Date,
-        Year,
-        Month,
         r0_briere,
         r0_quadratic
     )%>%

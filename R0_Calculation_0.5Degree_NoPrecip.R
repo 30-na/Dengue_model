@@ -130,7 +130,19 @@ CalculateR0 = function(df){
                                              )
                                          )
                                   )
-            )
+            )%>% 
+        dplyr::rename(
+            "Temperature" = t,
+            #"Precipitation" = r
+        )%>%
+        dplyr::select(
+            Longitude,
+            Latitude,
+            Temperature,
+            Date,
+            r0_briere,
+            r0_quadratic
+        )
             
            
             
@@ -147,6 +159,13 @@ load("processedData/merged_input_Data.rda")
 
 R0_data = merged_data %>%
 dplyr::filter(Date >= "1950-01-01") %>%
-CalculateR0()
-save(R0_data, file = "processedData/R0_data_NoPrecip.rda")
+CalculateR0()%>%
+    dplyr::mutate(
+        Year = format(Date, "%Y"),
+        Month = format(Date, "%B"),
+        Month = factor(Month,
+                       levels = c("January", "February", "March", "April", "May", "June",
+                                  "July", "August", "September", "October", "November", "December"))
+    )
+save(R0, file = "processedData/R0_1950to2020_NoPrecip.rda")
 

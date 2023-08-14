@@ -14,7 +14,18 @@ R0 = R0_data %>%
         Month = factor(Month,
                        levels = c("January", "February", "March", "April", "May", "June",
                                   "July", "August", "September", "October", "November", "December"))
+    )%>%
+    dplyr::select(
+        Temperature,
+        Date,
+        Year,
+        Month,
+        r0_briere,
+        r0_quadratic
     )
+
+save(R0,
+     file = "R0_1950to2020_NoPrecip.rda")
 
 
 R0MeanYearStat = R0 %>%

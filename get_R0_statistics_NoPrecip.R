@@ -8,13 +8,6 @@ R0 = R0_data %>%
         "Temperature" = t,
         #"Precipitation" = r
     )%>%
-    dplyr::mutate(
-        Year = format(Date, "%Y"),
-        Month = format(Date, "%B"),
-        Month = factor(Month,
-                       levels = c("January", "February", "March", "April", "May", "June",
-                                  "July", "August", "September", "October", "November", "December"))
-    )%>%
     dplyr::select(
         Temperature,
         Date,
@@ -22,6 +15,13 @@ R0 = R0_data %>%
         Month,
         r0_briere,
         r0_quadratic
+    )%>%
+    dplyr::mutate(
+        Year = format(Date, "%Y"),
+        Month = format(Date, "%B"),
+        Month = factor(Month,
+                       levels = c("January", "February", "March", "April", "May", "June",
+                                  "July", "August", "September", "October", "November", "December"))
     )
 
 save(R0,

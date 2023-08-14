@@ -57,10 +57,9 @@ R0MaxStatMap = R0 %>%
         max_ber = max(r0_briere, na.rm = T),
         max_quad = max(r0_quadratic, na.rm = T)
     ) %>%
-    dplyr::mutate(
-        dplyr::left_join(grid_country_clean,
+    dplyr::left_join(grid_country_clean,
                      by=c("Longitude", "Latitude"))
-    )
+    
 
 save(R0MaxStatMap,
      file = "R0MaxStatMapNoPrecip.rda")
@@ -78,10 +77,9 @@ R0MeanStatMap = R0 %>%
         mean_ber = mean(r0_briere, na.rm = T),
         mean_quad = mean(r0_quadratic, na.rm = T)
     ) %>%
-    dplyr::mutate(
-        dplyr::left_join(grid_country_clean,
+    dplyr::left_join(grid_country_clean,
                          by=c("Longitude", "Latitude"))
-    )
+    
 
 save(R0MeanStatMap,
      file = "R0MeanStatMapNoPrecip.rda")
@@ -100,10 +98,9 @@ R0MeanYearStatMap = R0 %>%
         mean_ber = mean(r0_briere, na.rm = T),
         mean_quad = mean(r0_quadratic, na.rm = T)
     ) %>%
-    dplyr::mutate(
-        dplyr::left_join(grid_country_clean,
+    dplyr::left_join(grid_country_clean,
                          by=c("Longitude", "Latitude"))
-    )
+    
 
 save(R0MeanYearStatMap,
      file = "R0MeanYearStatMapNoPrecip.rda")
@@ -122,10 +119,9 @@ R0MeanMonthStatMap = R0 %>%
         mean_ber = mean(r0_briere, na.rm = T),
         mean_quad = mean(r0_quadratic, na.rm = T)
     ) %>%
-    dplyr::mutate(
-        dplyr::left_join(grid_country_clean,
+    dplyr::left_join(grid_country_clean,
                          by=c("Longitude", "Latitude"))
-    )
+ 
 
 save(R0MeanMonthStatMap,
      file = "R0MeanMonthStatMapNoPrecip.rda")

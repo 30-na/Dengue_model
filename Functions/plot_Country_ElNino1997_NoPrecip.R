@@ -74,8 +74,8 @@ plot_map = function(month, fun, title1, title2, id, cnt){
     if(fun == "berier"){
         temp_df = df_map_1997 %>%
             dplyr::rename(
-                "var1" = per_ber,
-                "var2" = per_temp
+                "var1" = diff_ber,
+                "var2" = diff_temp
                 #"var3" = diff_prec
             )
     }
@@ -110,14 +110,14 @@ plot_map = function(month, fun, title1, title2, id, cnt){
                      size = 1) +
         scale_fill_gradientn(colors = rev(custom_colors),
                              #limits = c(-2, 2),
-                             limits = c(-100, 100),
+                             limits = c(-2, 2),
                              na.value = "transparent",
                              oob=scales::squish) +
         labs(
             #title = paste0(month, title),
             x = "",
             y = "",
-            fill = "R0 %"
+            fill = "R0 difference"
         )+
         #ylim(c(-62, 90)) +
         
@@ -142,14 +142,14 @@ plot_map = function(month, fun, title1, title2, id, cnt){
                      color = "black", fill = NA, size = 1) +
         scale_fill_gradientn(colors = rev(custom_colors),
                              #limits = c(-5, 5),
-                             limits = c(-10, 10),
+                             limits = c(-3, 3),
                              na.value = "transparent",
                              oob=scales::squish) +
         labs(
             #title = paste0(month, title),
             x = "",
             y = "",
-            fill = "Temperature %"
+            fill = "Temperature difference"
         )+
         #ylim(c(-62, 90)) +
         
@@ -209,7 +209,7 @@ plot_map = function(month, fun, title1, title2, id, cnt){
                                         #color = "red",
                                         face = "bold",
                                         size = 14))
-    ggsave(paste0("Figures/1997/Ph3/", sprintf("%02d", id), ".jpg"),
+    ggsave(paste0("Figures/1997/Ph2/", sprintf("%02d", id), ".jpg"),
            g,
            height=6,width=5,scale=1.6)
     # print(min(temp_df$var1, na.rm=T))

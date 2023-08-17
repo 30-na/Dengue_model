@@ -16,7 +16,7 @@ load("processedData/R0MeanYearStat.rda")
 
 
 df_map_2015 = R0 %>%
-    dplyr::filter(Date >= "2015-02-15" & Date < "2016-02-15") %>%
+    dplyr::filter(Date >= "2015-02-14" & Date < "2016-02-14") %>%
     group_by(Longitude,
              Latitude)%>%
     dplyr::summarize(

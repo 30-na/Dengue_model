@@ -160,6 +160,6 @@ R0_data = merged_data %>%
     dplyr::filter(Date > "1950-01-01",
                   Date < "2021-01-01") %>%
     CalculateR0()
-save(R0_data, file = "processedData/R0_data_FrEdited.rda")
+save(R0_data, file = "processedData/R0_data.rda")
 
 

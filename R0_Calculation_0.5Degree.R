@@ -1,39 +1,18 @@
 # load library
 library(dplyr)
-library(ggplot2)
-library(reshape2)
-
-# make a input dataframe
-
-# Define the ranges
-temperature_range <- c(-58, 40)
-precipitation_range <- c(0, 4061)
-r_se_range <- c(0, 1)
-p_ae_range <- c(0, 1)
-
-# Number of data points
-num_points <- 1000
-
-# Generate sequences of values
-temperature_values <- seq(from = temperature_range[1], to = temperature_range[2], length.out = num_points)
-precipitation_values <- seq(from = precipitation_range[1], to = precipitation_range[2], length.out = num_points)
-
-# Create a grid of combinations
-df = expand.grid(
-    t = temperature_values,
-    r = precipitation_values
-    ) %>%
-    dplyr::mutate(
-        R_se = 1,
-        P_ae = 1
-    )
 
 
 CalculateR0 = function(df){
     
     R0_data = df %>%
+        rename(
+            "t" = Temperature,
+            "r" = Precipitation
+        )%>%
         mutate(
+            ## f(R) may have to divide R by 2 (r/2)
             r = (r/2),
+            
             
             # b = Mosquito biting rate
             b = ifelse(t <= 13.35 | t >= 40.08,
@@ -82,7 +61,7 @@ CalculateR0 = function(df){
             #             0,
             #             -2.29574 * (((r*2)/31) ^ 2 - 1.18161 * ((r*2)/31))),
             # 
-            dR = 1,
+            #dR = 1,
             
             
             # Rate at which an egg develops into an adult mosquito
@@ -109,26 +88,27 @@ CalculateR0 = function(df){
             # change k/N_H in the base model to 0.975
             K = 0.975, # corrected
             
-            N_h = 1, #corrected
+            #N_h = 1, #corrected
             
             #c_briere = 7.86 * 10 ^ (-5),
-            #z_briere = .28, 
+            #z_briere = 1/47514.73, 
             #c_quad = -5.99 * 10 ^ (-3),
-            #z_quad = 0.025,
-           # z_inverse = 0.6,
+            #z_quad = 1/-3719.983,
+            #z_inverse = 0.6,
             # 246 corrected value
-            z = 1,
+            
             # rMIN = 1, rMAX = 246
             
-            FR_briere = ifelse(r <= 1 | r >= 123,
+            FR_briere = ifelse(r <= 1 | r >= 246,
                                0,
-                                r * (r - 1) * sqrt(123 - r) * z),
+                               r * (r - 1) * sqrt(246 - r) * (1/47514.73)),
             
             # rMIN = 1, rMAX = 123
             FR_quad = ifelse(r <= 1 | r >= 123,
                              0,
-                              (r - 1) * (r - 123) * z),
+                             (r - 1) * (r - 123) * (1/-3719.983)),
             
+            #FR_inverse = (1 / r) * z_inverse,
             
             
             # R0 Model (briere)
@@ -137,8 +117,8 @@ CalculateR0 = function(df){
                                ifelse(is.infinite(FR_briere) |(theta*nu_tw*phi_tw) < mu^2,
                                       0,
                                       sqrt(
-                                          ((b ^ 2) * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1 - (mu^2 / (theta * nu_tw * dR * phi_tw)))) / 
-                                              (gamma * mu * (sigma_v + mu) * N_h)
+                                          ((b ^ 2) * B_vh * B_hv * sigma_v * R_se * K * FR_briere * P_ae * (1 - (mu^2 / (theta * nu_tw * phi_tw)))) / 
+                                              (gamma * mu * (sigma_v + mu))
                                       )
                                )
             ),
@@ -149,8 +129,8 @@ CalculateR0 = function(df){
                                   ifelse(is.infinite(FR_quad)|(theta*nu_tw*phi_tw) < mu^2,
                                          0,
                                          sqrt(
-                                             (b ^ 2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1 - (mu^2 / (theta * nu_tw * dR * phi_tw)))) / 
-                                                 (gamma * mu * (sigma_v + mu) * N_h)
+                                             (b ^ 2 * B_vh * B_hv * sigma_v * R_se * K * FR_quad * P_ae * (1 - (mu^2 / (theta * nu_tw * phi_tw)))) / 
+                                                 (gamma * mu * (sigma_v + mu))
                                          )
                                   )
             )
@@ -158,8 +138,11 @@ CalculateR0 = function(df){
         dplyr::select(
             t,
             r,
+            Date,
+            Longitude,
+            Latitude,
             FR_briere,
-            FR_quad,
+            r0_quadratic,
             r0_briere,
             r0_quadratic
         )
@@ -167,36 +150,16 @@ CalculateR0 = function(df){
     return(R0_data)
     
 }
-# by changing the max value to 123 The highest value for Fr (Briere) 
-#is 1.045704 and for Fr (quad) is 0.5570674. which means the z for 
-df_out = df %>%
+
+print("Step1")
+# seperate dataset to solve memory error issue
+load("processedData/merged_input_Data.rda")
+
+print("Step2")
+R0_data = merged_data %>%
+    dplyr::filter(Date > "1950-01-01",
+                  Date < "2021-01-01") %>%
     CalculateR0()
+save(R0_data, file = "processedData/R0_data_FrEdited.rda")
 
-# plot
-df_out_r = df_out %>%
-    select(r, FR_briere,FR_quad)%>%
-    melt(id.vars = 1)%>%
-    dplyr::mutate(
-        variable = factor(variable)
-    )
-
-# Create a combined plot with multiple facets
-g = ggplot(df_out_r,
-            aes(x = r,
-                y = value,
-                color = variable,
-                group=variable,
-                linetype = variable)) +
-    geom_line(linewidth=1.2) +
-    labs(x = "Precipitation",
-         y = "fR() value") +
-    xlim(c(0,300))+
-    facet_wrap(. ~ variable,
-               ncol=1)
-    
-
-# Display the combined plot
-ggsave("Figures/Precipitaion_analysis_123.jpg",
-       g,
-       height=6,width=8,scale=1)
 

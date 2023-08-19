@@ -27,7 +27,7 @@ R0MeanYearStat = R0 %>%
     ) 
 
 save(R0MeanYearStat,
-     file = "R0MeanYearStatNoPrecip.rda")
+     file = "ProcessedData/R0MeanYearStat.rda")
 
 
 
@@ -42,7 +42,7 @@ R0MeanMonthStat = R0 %>%
     )
 
 save(R0MeanMonthStat,
-     file = "R0MeanMonthStatNoPrecip.rda")
+     file = "ProcessedData/R0MeanMonthStat.rda")
 
 
 
@@ -62,7 +62,7 @@ R0MaxStatMap = R0 %>%
 
 
 save(R0MaxStatMap,
-     file = "R0MaxStatMapNoPrecip.rda")
+     file = "ProcessedData/R0MaxStatMap.rda")
 
 
 
@@ -82,7 +82,7 @@ R0MeanStatMap = R0 %>%
 
 
 save(R0MeanStatMap,
-     file = "R0MeanStatMapNoPrecip.rda")
+     file = "ProcessedData/R0MeanStatMapNo.rda")
 
 
 
@@ -103,7 +103,7 @@ R0MeanYearStatMap = R0 %>%
 
 
 save(R0MeanYearStatMap,
-     file = "R0MeanYearStatMapNoPrecip.rda")
+     file = "ProcessedData/R0MeanYearStatMap.rda")
 
 
 
@@ -124,5 +124,5 @@ R0MeanMonthStatMap = R0 %>%
 
 
 save(R0MeanMonthStatMap,
-     file = "R0MeanMonthStatMapNoPrecip.rda")
+     file = "ProcessedData/R0MeanMonthStatMap.rda")
 

@@ -82,7 +82,7 @@ R0MeanStatMap = R0 %>%
 
 
 save(R0MeanStatMap,
-     file = "processedData/R0MeanStatMapNo.rda")
+     file = "processedData/R0MeanStatMap.rda")
 
 
 

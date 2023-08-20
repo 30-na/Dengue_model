@@ -86,8 +86,8 @@ CalculateR0 = function(df){
             
             # Maximum Human to Mosquito Ratio: (vector carrying capacity/human population density)
             # change k/N_H in the base model to 0.975
-            K = 0.975, # corrected
-            
+            #K = 0.975, # corrected
+            K = 3, #Change Kappa from 0.975 to 3
             #N_h = 1, #corrected
             
             #c_briere = 7.86 * 10 ^ (-5),

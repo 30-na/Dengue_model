@@ -99,14 +99,16 @@ CalculateR0 = function(df){
             
             # rMIN = 1, rMAX = 246
             
-            FR_briere = ifelse(r <= 1 | r >= 246,
+            FR_briere = ifelse(r <= 1 | r >= 123,
                                0,
-                               r * (r - 1) * sqrt(246 - r) * (1/47514.73)),
+                               r * (r - 1) * sqrt(123 - r) * (1/47514.73)
+                               ),
             
             # rMIN = 1, rMAX = 123
             FR_quad = ifelse(r <= 1 | r >= 123,
                              0,
-                             (r - 1) * (r - 123) * (1/-3719.983)),
+                             (r - 1) * (r - 123) * (1/-3719.983)
+                             ),
             
             #FR_inverse = (1 / r) * z_inverse,
             
@@ -142,7 +144,7 @@ CalculateR0 = function(df){
             Longitude,
             Latitude,
             FR_briere,
-            r0_quadratic,
+            FR_quad,
             r0_briere,
             r0_quadratic
         )

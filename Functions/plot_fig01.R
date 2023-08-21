@@ -124,5 +124,5 @@ plot_map(variables = c("mean_ber_disc", "max_ber_disc" ),
 
 
 plot_map(variables = c("mean_quad_disc", "max_quad_disc" ), 
-         title = "Fig. 01 (Quadratic)")
+         title = "Fig. S01 (Quadratic)")
 

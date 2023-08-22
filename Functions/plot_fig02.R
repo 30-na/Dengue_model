@@ -59,6 +59,31 @@ hist(df$per_ber)
 
 plot_map = function(fun, title){
     
+    
+    
+    g0b = ggplot(df, aes(x = per_ber)) +
+        geom_histogram(binwidth = 5, fill = "steelblue", color = "black") +
+        labs(title = "Histogram of R0 seasonal change (Briere)",
+             x = "%R0 Ralative change",
+             y = "Frequency") +
+        theme_minimal()
+    ggsave("Figures/fig2HistB.jpg",
+           g0b,
+           height=5,width=8,scale=1)
+    
+    
+    g0q = ggplot(df, aes(x = per_quad)) +
+        geom_histogram(binwidth = 5, fill = "steelblue", color = "black") +
+        labs(title = "Histogram of R0 seasonal change (Quadratic)",
+             x = "%R0 Ralative change",
+             y = "Frequency") +
+        theme_minimal()
+    ggsave("Figures/fig2HistQ.jpg",
+           g0q,
+           height=5,width=8,scale=1)
+    
+    
+    
     if (fun == "briere"){
         temp_df = df %>%
             dplyr::select(
@@ -131,7 +156,7 @@ plot_map = function(fun, title){
 }
 
 plot_map(fun = "briere", 
-         title = "Fig. 02 (Briere)")
+         title = "Fig. 02")
 
 
 plot_map(fun = "quadratic", 

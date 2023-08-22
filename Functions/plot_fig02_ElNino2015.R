@@ -9,14 +9,14 @@ library(ggpubr)
 
 
 # load data
-load("processedData/R0_1950to2020.rda")
+load("processedData/R0_data.rda")
 load("processedData/R0MeanStatMap.rda")
 load("processedData/R0MeanYearStat.rda")
 
 
 
-df_map_2015 = R0 %>%
-    dplyr::filter(Date >= "2015-02-14" & Date < "2016-02-14") %>%
+df_map_2015 = R0_data %>%
+    dplyr::filter(Date >= "2015-02-01" & Date < "2016-02-01") %>%
     group_by(Longitude,
              Latitude)%>%
     dplyr::summarize(
@@ -39,15 +39,59 @@ dplyr::mutate(diff_ber = mean_ber_1year - mean_ber,
               per_ber = ifelse(diff_ber == 0 & mean_ber ==0, 0, (diff_ber / mean_ber)*100),
               per_quad = ifelse(diff_quad == 0 & mean_quad ==0, 0, (diff_quad / mean_quad)*100),
               mean_ber_disc = cut(per_ber,
-                                  breaks = c(-Inf,-40, -30, -20, -10, 0, 10, 20, 30, 40, Inf),
-                                  labels = c("< -40", "-40 to -30", "-30 to -20", "-20 to -10", "-10 to 0", "0 to 10", "10 to 20", "20 to 30", "30 to 40", "> 40"),
+                                  breaks = c(-Inf, -80, -60, -40, -20, 0, 20, 40, 60,80, Inf),
+                                  labels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"),
                                   include.lowest = TRUE),
               mean_quad_disc = cut(per_quad,
-                                   breaks = c(-Inf,-40, -30, -20, -10, 0, 10, 20, 30, 40, Inf),
-                                   labels = c("< -40", "-40 to -30", "-30 to -20", "-20 to -10", "-10 to 0", "0 to 10", "10 to 20", "20 to 30", "30 to 40", "> 40"),
-                                   include.lowest = TRUE))
+                                   breaks = c(-Inf, -80, -60, -40, -20, 0, 20, 40, 60,80, Inf),
+                                   labels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"),
+                                   include.lowest = TRUE),
+              mean_ber_disc = ifelse(per_ber == 0, "0", as.character(mean_ber_disc)),
+              mean_quad_disc = ifelse(per_quad == 0, "0", as.character(mean_quad_disc)),
+              mean_ber_disc = factor(mean_ber_disc, levels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80")),
+              mean_quad_disc = factor(mean_quad_disc, levels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"))
+              
+)
 
 
+
+df_map_1997 = R0_data %>%
+    dplyr::filter(Date >= "1997-06-01" & Date < "1998-06-01") %>%
+    group_by(Longitude,
+             Latitude)%>%
+    dplyr::summarize(
+        mean_ber_1year = mean(r0_briere, na.rm = T),
+        mean_quad_1year = mean(r0_quadratic, na.rm = T)
+    ) %>%
+    dplyr::left_join(
+        R0MeanStatMap , by=c("Longitude","Latitude")
+    ) %>%
+    dplyr::select(
+        Longitude,
+        Latitude,
+        mean_ber_1year,
+        mean_quad_1year,
+        mean_ber,
+        mean_quad
+    ) %>%
+    dplyr::mutate(diff_ber = mean_ber_1year - mean_ber,
+                  diff_quad = mean_quad_1year - mean_quad,
+                  per_ber = ifelse(diff_ber == 0 & mean_ber ==0, 0, (diff_ber / mean_ber)*100),
+                  per_quad = ifelse(diff_quad == 0 & mean_quad ==0, 0, (diff_quad / mean_quad)*100),
+                  mean_ber_disc = cut(per_ber,
+                                      breaks = c(-Inf, -80, -60, -40, -20, 0, 20, 40, 60,80, Inf),
+                                      labels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"),
+                                      include.lowest = TRUE),
+                  mean_quad_disc = cut(per_quad,
+                                       breaks = c(-Inf, -80, -60, -40, -20, 0, 20, 40, 60,80, Inf),
+                                       labels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"),
+                                       include.lowest = TRUE),
+                  mean_ber_disc = ifelse(per_ber == 0, "0", as.character(mean_ber_disc)),
+                  mean_quad_disc = ifelse(per_quad == 0, "0", as.character(mean_quad_disc)),
+                  mean_ber_disc = factor(mean_ber_disc, levels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80")),
+                  mean_quad_disc = factor(mean_quad_disc, levels = c("< -80", "-80 to -60", "-60 to -40","-40 to -20", "-20 to 0", "0", "0 to 20", "20 to 40", "40 to 60", "60 to 80","> 80"))
+                  
+    )
 
 
 df_mean = R0MeanYearStat %>% 
@@ -71,32 +115,39 @@ df_mean = R0MeanYearStat %>%
 
 
 
-plot_Fig2 = function(title1, title2, fun){
+plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
     
-    custom_colors = rev(c('#67001f','#b2182b','#d6604d','#f4a582','#fddbc7','#d1e5f0','#92c5de','#4393c3','#2166ac','#053061'))
+    custom_colors = rev(c('#67001f','#b2182b','#d6604d','#f4a582','#fddbc7','#e0e0e0', '#d1e5f0','#92c5de','#4393c3','#2166ac','#053061'))
+    
+    
+    
+    if(year == "2015-16"){
+        dftemp = df_map_2015
+    }
+    if(year == "1997-98"){
+        dftemp = df_map_1997
+    }
     
     
     # set Function
     if(fun == "berier"){
-        df_map_2015 = df_map_2015 %>%
+        dftemp = dftemp %>%
             dplyr::rename("var" = mean_ber_disc)
         df_mean = df_mean %>%
             dplyr::rename("var" = ber_per)
-        mainTitle = "Fig .2"
-        hjust = 6.3
+        
     } 
     
     if(fun == "quadratic"){
-        df_map_2015 = df_map_2015 %>%
+        dftemp = dftemp %>%
             dplyr::rename("var" = mean_quad_disc)
         df_mean = df_mean %>%
             dplyr::rename("var" = quad_per)
-        mainTitle = "Fig .2 (Quadratic)"
-        hjust = 2.03
+        
     } 
     
     g1 = ggplot(
-        df_map_2015,
+        dftemp,
         aes(x = Longitude, y = Latitude, color = var)
     ) +
         geom_point(size=.1) +
@@ -165,15 +216,35 @@ plot_Fig2 = function(title1, title2, fun){
                                         hjust=hjust)
     )
     
-    ggsave(paste0("Figures/fig2_", fun, "2015.jpg"),
+    ggsave(paste0("Figures/fig2_", fun, year, ".jpg"),
            g,
            height=9,width=9,scale=1)
 }
 
 plot_Fig2(title1 = "(A) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
           title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
-          fun = "berier")
+          fun = "berier",
+          year = "2015-16",
+          mainTitle = "Fig. S04 (Briere)",
+          hjust = 2.15)
+
+plot_Fig2(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
+          fun = "berier",
+          year = "1997-98",
+          mainTitle = "Fig. S05 (Briere)",
+          hjust = 2.15)
 
 plot_Fig2(title1 = "(A) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
           title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
-          fun = "quadratic")
+          fun = "quadratic",
+          year = "2015-16",
+          mainTitle = "Fig. S06 (Quadratic)",
+          hjust = 1.75)
+
+plot_Fig2(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
+          fun = "quadratic",
+          year = "1997-98",
+          mainTitle = "Fig. S07 (Quadratic)",
+          hjust = 1.75)

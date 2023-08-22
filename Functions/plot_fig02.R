@@ -13,7 +13,7 @@ load("processedData/R0MeanMonthStatMap.rda")
 load("processedData/R0MeanStatMap.rda")
 names(R0MeanMonthStatMap)
 
-# calculate the seasonal R0 for quad and berier
+# calculate the seasonal R0 for quad and briere
 df = R0MeanMonthStatMap %>%
     dplyr::mutate(
         season = case_when(Month %in% c("December", "January", "February") ~ "Winter",
@@ -55,11 +55,11 @@ df = R0MeanMonthStatMap %>%
         
     )
 
-
+hist(df$per_ber)
 
 plot_map = function(fun, title){
     
-    if (fun == "berier"){
+    if (fun == "briere"){
         temp_df = df %>%
             dplyr::select(
                 Longitude,
@@ -130,8 +130,8 @@ plot_map = function(fun, title){
            height=7,width=12,scale=1)
 }
 
-plot_map(fun = "berier", 
-         title = "Fig. 02")
+plot_map(fun = "briere", 
+         title = "Fig. 02 (Briere)")
 
 
 plot_map(fun = "quadratic", 

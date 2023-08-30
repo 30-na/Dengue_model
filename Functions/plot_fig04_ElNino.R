@@ -98,15 +98,15 @@ df_mean = R0MeanYearStat %>%
     dplyr::mutate(
         total_mean_ber = mean(mean_ber, na.rm = T),
         total_mean_quad = mean(mean_quad, na.rm = T),
-        ber_diff = mean_ber - total_mean_ber,
-        quad_diff = mean_quad - total_mean_quad,
-        ber_per = (ber_diff / total_mean_ber)*100,
-        quad_per = (quad_diff / total_mean_quad)*100,
-        ber_per_smooth = rollmean(ber_per,
+        diff_ber = mean_ber - total_mean_ber,
+        diff_quad = mean_quad - total_mean_quad,
+        per_ber = (diff_ber / total_mean_ber)*100,
+        per_quad = (diff_quad / total_mean_quad)*100,
+        per_ber_smooth = rollmean(per_ber,
                                   k = 5,
                                   fill = NA,
                                   align = "center"),
-        quad_per_smooth = rollmean(quad_per,
+        per_quad_smooth = rollmean(per_quad,
                                    k = 5,
                                    fill = NA,
                                    align = "center")
@@ -115,26 +115,22 @@ df_mean = R0MeanYearStat %>%
 
 
 
-plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
+plot_Fig4 = function(title1, title2,title3, fun, year, mainTitle, hjust){
     
     custom_colors = rev(c('#67001f','#b2182b','#d6604d','#f4a582','#fddbc7','#e0e0e0', '#d1e5f0','#92c5de','#4393c3','#2166ac','#053061'))
     
     
     
-    if(year == "2015-16"){
-        dftemp = df_map_2015
-    }
-    if(year == "1997-98"){
-        dftemp = df_map_1997
-    }
     
     
+    
+    dftemp = df_map_1997
     # set Function
-    if(fun == "berier"){
-        dftemp = dftemp %>%
+    if(fun == "briere"){
+        dftemp = df_map_1997 %>%
             dplyr::rename("var" = mean_ber_disc)
         df_mean = df_mean %>%
-            dplyr::rename("var" = ber_per)
+            dplyr::rename("var" = per_ber)
         
     } 
     
@@ -142,7 +138,7 @@ plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
         dftemp = dftemp %>%
             dplyr::rename("var" = mean_quad_disc)
         df_mean = df_mean %>%
-            dplyr::rename("var" = quad_per)
+            dplyr::rename("var" = per_quad)
         
     } 
     
@@ -175,15 +171,70 @@ plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
         theme(
             axis.text.x = element_blank(),
             axis.text.y = element_blank(),
-            plot.title = element_text(size = 12)
+            plot.title = element_text(size = 12),
+            legend.position = "bottom",  # Move the legend to the bottom
+            legend.text = element_text(angle = 0)  # Keep legend text horizontal
         )
     
     
-    g2 <- ggplot(data = df_mean,
+    
+    dftemp = df_map_2015
+    # set Function
+    if(fun == "briere"){
+        dftemp = dftemp %>%
+            dplyr::rename("var" = mean_ber_disc)
+        
+    } 
+    
+    if(fun == "quadratic"){
+        dftemp = dftemp %>%
+            dplyr::rename("var" = mean_quad_disc)
+        
+    } 
+    
+    
+    
+    
+    g2 = ggplot(
+        dftemp,
+        aes(x = Longitude, y = Latitude, color = var)
+    ) +
+        geom_point(size=.1) +
+        borders(
+            size=.2,
+            colour = "black",
+            xlim=c(-180, 180),
+            ylim=c(-62, 90)
+        )+ 
+        #scale_color_viridis()+
+        scale_color_manual(values = custom_colors,
+                           na.value = "transparent",
+                           drop = TRUE,
+                           na.translate = F) +
+        labs(
+            #title = title1,
+            x = "",
+            y = "",
+            color = "R0 (%)"
+        )+
+        ylim(c(-62, 90)) +
+        
+        theme_minimal()+
+        guides(color = guide_legend(override.aes = list(size = 8, shape=15)))+
+        theme(legend.position="none",
+              axis.text.x = element_blank(),
+              axis.text.y = element_blank(),
+              plot.title = element_text(size = 12),)
+        
+    
+    
+    
+    
+    g3 <- ggplot(data = df_mean,
                  aes(x = as.numeric(Year),
                      y = var)) +  # Remove fill aesthetic from here
         geom_col(aes(fill = factor(var < 0)), col = "#4d4d4d") +  # Specify fill for geom_col
-        geom_line(aes(y = ber_per_smooth),
+        geom_line(aes(y = per_ber_smooth),
                   col = "black",
                   size = 1) +
         scale_fill_manual(values = c("FALSE" = "#d6604d", "TRUE" = "#4393c3")) +
@@ -200,13 +251,16 @@ plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
     
     g <- ggarrange(g1,
                    g2,
+                   g3,
                    labels=c(title1,
-                            title2),
+                            title2,
+                            title3),
+                   heights = c(1.25, 1,1),
                    font.label = list(size = 12,
                                      color = "black",
                                      face = "plain"),
                    ncol = 1,
-                   nrow = 2,
+                   nrow = 3,
                    hjust = -.02)
    
     g = annotate_figure(g,
@@ -216,35 +270,22 @@ plot_Fig2 = function(title1, title2, fun, year, mainTitle, hjust){
                                         hjust=hjust)
     )
     
-    ggsave(paste0("Figures/fig2_", fun, year, ".jpg"),
+    ggsave(paste0("Figures/fig2_", fun, ".jpg"),
            g,
-           height=9,width=9,scale=1)
+           height=14,width=9,scale=1)
 }
 
-plot_Fig2(title1 = "(A) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
-          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
-          fun = "berier",
-          year = "2015-16",
-          mainTitle = "Fig. S04 (Briere)",
-          hjust = 2.15)
+plot_Fig4(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title2 = "(B) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title3 = "(C) Standardized R0 anomalies with respect to the 1950–2020 period",
+          fun = "briere",
+          mainTitle = "Fig. 04 (Briere)",
+          hjust = 2.40)
 
-plot_Fig2(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
-          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
-          fun = "berier",
-          year = "1997-98",
-          mainTitle = "Fig. S05 (Briere)",
-          hjust = 2.15)
 
-plot_Fig2(title1 = "(A) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
-          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
+plot_Fig4(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title2 = "(B) Annual R0 2015-16 El Nino anomaly (percentage) with respect to the 1950–2020 period",
+          title3 = "(C) Standardized R0 anomalies with respect to the 1950–2020 period",
           fun = "quadratic",
-          year = "2015-16",
-          mainTitle = "Fig. S06 (Quadratic)",
-          hjust = 1.75)
-
-plot_Fig2(title1 = "(A) Annual R0 1997-98 El Nino anomaly (percentage) with respect to the 1950–2020 period",
-          title2 = "(B) Standardized R0 anomalies with respect to the 1950–2020 period",
-          fun = "quadratic",
-          year = "1997-98",
-          mainTitle = "Fig. S07 (Quadratic)",
-          hjust = 1.75)
+          mainTitle = "Fig. S04 (quadratic)",
+          hjust = 1.8)

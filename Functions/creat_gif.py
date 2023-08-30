@@ -9,7 +9,8 @@ def open_and_convert_image(image_path):
     return img
 
 # Directory path where RGB images are located
-directory_path = r"C:\Users\msin2\Desktop\Dengue_model\Figures\2015\Ph"
+directory_path = r"C:\Users\msin2\Desktop\Dengue_model\Figures\2015-16"
+
 
 # List to store the converted images
 converted_images = []
@@ -21,4 +22,4 @@ for i in range(1, 13):
     converted_images.append(img)
 
 # Save the converted images as a GIF
-converted_images[0].save(r"Desktop\Dengue_model\Figures\Philippines.2015.gif", save_all=True, append_images=converted_images[1:], optimize=False, duration=800, loop=0)
+converted_images[0].save(r"C:\Users\msin2\Desktop\Dengue_model\Figures\2015.gif", save_all=True, append_images=converted_images[1:], optimize=False, duration=800, loop=0)

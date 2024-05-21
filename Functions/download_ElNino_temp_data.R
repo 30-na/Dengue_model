@@ -18,12 +18,14 @@ table_data_cpc <- html_table(webpage_cpc)
 
 # Extract the table of temp and clean the data
 temp_cpc_raw <- table_data_cpc[[9]]
-names(temp_cpc_raw) <- temp_cpc_raw[1,]
+names(temp_cpc_raw) <- c("Year", "January", "February", "March", "April", "May", "June",
+                         "July", "August", "September", "October", "November", "December")
+cpc <- temp_cpc_raw %>%dplyr::filter(Year != "Year") %>%
+    reshape2::melt(id.vars = "Year", variable.name = "Month", value.name = "ONI_cpc")
 
+save(cpc,
+     file = "processedData/cpc.rda")
 
-
-
-# Define the URL of the webpage
 
 
 #download.file("https://psl.noaa.gov/data/correlation/nina34.anom.data", "Data/nina34.anom.data")
@@ -34,7 +36,16 @@ rawdata_noaa <- fread("Data/nina34.anom.data")
 
 names(rawdata_noaa) <- c("Year", "January", "February", "March", "April", "May", "June",
                          "July", "August", "September", "October", "November", "December")
-noaa <- melt(rawdata_noaa, id.vars = "Year", variable.name = "Month", value.name = "ONI2")
+noaa <- reshape2::melt(rawdata_noaa, id.vars = "Year", variable.name = "Month", value.name = "ONI_noaa")
+
+save(noaa,
+     file = "processedData/noaa.rda")
+
+
+
+
+
+
 
 temp_cpc <- temp_cpc_raw %>%
     dplyr::filter(
@@ -98,5 +109,4 @@ temp_cpc <- temp_cpc_raw %>%
 save(temp_cpc,
      file = "processedData/temp_cpc.rda")
 
-save(noaa,
-     file = "processedData/noaa.rda")
+

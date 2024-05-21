@@ -5,24 +5,36 @@ library(dplyr)
 library(reshape2)
 library(purrr)
 library(zoo)
+library(data.table)
 
 # Define the URL of the webpage
-url <- "https://origin.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php"
+url_cpc <- "https://origin.cpc.ncep.noaa.gov/products/analysis_monitoring/ensostuff/ONI_v5.php"
 
 # Read the HTML content of the webpage
-webpage <- read_html(url)
+webpage_cpc <- read_html(url_cpc)
 
 # Extract the table from the webpage
-table_data <- html_table(webpage)
+table_data_cpc <- html_table(webpage_cpc)
 
 # Extract the table of temp and clean the data
-temp_cpc_raw <- table_data[[9]]
+temp_cpc_raw <- table_data_cpc[[9]]
 names(temp_cpc_raw) <- temp_cpc_raw[1,]
 
-# Define a function to check if the sum is equal to 5
-check_sum_5 <- function(x) {
-    sum(x) == 5
-}
+
+
+
+# Define the URL of the webpage
+
+
+#download.file("https://psl.noaa.gov/data/correlation/nina34.anom.data", "Data/nina34.anom.data")
+
+# Read the data into R
+rawdata_noaa <- fread("Data/nina34.anom.data")
+
+
+names(rawdata_noaa) <- c("Year", "January", "February", "March", "April", "May", "June",
+                         "July", "August", "September", "October", "November", "December")
+noaa <- melt(rawdata_noaa, id.vars = "Year", variable.name = "Month", value.name = "ONI2")
 
 temp_cpc <- temp_cpc_raw %>%
     dplyr::filter(
@@ -85,3 +97,6 @@ temp_cpc <- temp_cpc_raw %>%
 # save file as RDA
 save(temp_cpc,
      file = "processedData/temp_cpc.rda")
+
+save(noaa,
+     file = "processedData/noaa.rda")

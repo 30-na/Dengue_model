@@ -518,3 +518,241 @@ save(R0Region, file = "processedData/R0Region.rda")
 
 
 
+###### Calculate average for months for each region
+
+library(dplyr)
+
+# List of .rda files
+rda_files <- paste0("processedData/r", sprintf("%02d", 1:11), "C.rda")
+
+
+for(i in 1:5){
+    load(rda_files[i])
+}
+
+R0Region1M <- rbind(
+    r01C,
+    r02C,
+    r03C,
+    r04C,
+    r05C
+) %>%
+    dplyr::filter(
+        Year < "1978"
+    ) %>%
+    dplyr::select(
+        Month,
+        regions,
+        r0_briere,
+        r0_quadratic
+    )
+
+save(R0Region1M, file = "processedData/R0Region1M.rda")
+
+
+
+
+
+for(i in 5:8){
+    load(rda_files[i])
+}
+
+R0Region2M <- rbind(
+    r05C,
+    r06C,
+    r07C,
+    r08C
+    ) %>%
+    dplyr::filter(
+        Year >= "1978" & Year < "1999"
+    ) %>%
+    dplyr::select(
+        Month,
+        regions,
+        r0_briere,
+        r0_quadratic
+    )
+
+save(R0Region2M, file = "processedData/R0Region2M.rda")
+
+
+
+for(i in 8:11){
+    load(rda_files[i])
+}
+
+R0Region3M <- rbind(
+    r08C,
+    r09C,
+    r10C,
+    r11C
+    ) %>%
+    dplyr::filter(
+        Year >= "1999"
+    )  %>%
+    dplyr::select(
+        Month,
+        regions,
+        r0_briere,
+        r0_quadratic
+    )
+
+save(R0Region3M, file = "processedData/R0Region3M.rda")
+
+
+
+load("processedData/R0Region1M.rda")
+load("processedData/R0Region2M.rda")
+load("processedData/R0Region3M.rda")
+
+
+## caribbean_countries
+caribbean_countries1 <- dplyr::filter(R0Region1M, regions == "caribbean_countries")
+caribbean_countries2 <- dplyr::filter(R0Region2M, regions == "caribbean_countries")
+caribbean_countries3 <- dplyr::filter(R0Region3M, regions == "caribbean_countries")
+caribbean_countries_df <- rbind(
+    caribbean_countries1,
+    caribbean_countries2,
+    caribbean_countries3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "caribbean_countries"
+    )
+
+## central_america
+central_america1 <- dplyr::filter(R0Region1M, regions == "central_america")
+central_america2 <- dplyr::filter(R0Region2M, regions == "central_america")
+central_america3 <- dplyr::filter(R0Region3M, regions == "central_america")
+central_america_df <- rbind(
+    central_america1,
+    central_america2,
+    central_america3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "central_america"
+    )
+
+
+## south_america
+south_america1 <- dplyr::filter(R0Region1M, regions == "south_america")
+south_america2 <- dplyr::filter(R0Region2M, regions == "south_america")
+south_america3 <- dplyr::filter(R0Region3M, regions == "south_america")
+south_america_df <- rbind(
+    south_america1,
+    south_america2,
+    south_america3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "south_america"
+    )
+
+
+## sub_saharan_africa
+sub_saharan_africa1 <- dplyr::filter(R0Region1M, regions == "sub_saharan_africa")
+sub_saharan_africa2 <- dplyr::filter(R0Region2M, regions == "sub_saharan_africa")
+sub_saharan_africa3 <- dplyr::filter(R0Region3M, regions == "sub_saharan_africa")
+sub_saharan_africa_df <- rbind(
+    sub_saharan_africa1,
+    sub_saharan_africa2,
+    sub_saharan_africa3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "sub_saharan_africa"
+    )
+
+
+
+
+## south_east_asia
+south_east_asia1 <- dplyr::filter(R0Region1M, regions == "south_east_asia")
+south_east_asia2 <- dplyr::filter(R0Region2M, regions == "south_east_asia")
+south_east_asia3 <- dplyr::filter(R0Region3M, regions == "south_east_asia")
+south_east_asia_df <- rbind(
+    south_east_asia1,
+    south_east_asia2,
+    south_east_asia3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "south_east_asia"
+    )
+
+
+## south_asia
+south_asia1 <- dplyr::filter(R0Region1M, regions == "south_asia")
+south_asia2 <- dplyr::filter(R0Region2M, regions == "south_asia")
+south_asia3 <- dplyr::filter(R0Region3M, regions == "south_asia")
+south_asia_df <- rbind(
+    south_asia1,
+    south_asia2,
+    south_asia3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "south_asia"
+    )
+
+
+## oceania
+oceania1 <- dplyr::filter(R0Region1M, regions == "oceania")
+oceania2 <- dplyr::filter(R0Region2M, regions == "oceania")
+oceania3 <- dplyr::filter(R0Region3M, regions == "oceania")
+oceania_df <- rbind(
+    oceania1,
+    oceania2,
+    oceania3
+) %>%
+    group_by(Month) %>%
+    summarize(
+        mean_ber_total = mean(r0_briere, na.rm = TRUE),
+        mean_quad_total = mean(r0_quadratic, na.rm = TRUE)
+    ) %>%
+    dplyr::mutate(
+        regions = "oceania"
+    )
+
+
+
+
+R0MeanMonthStatRegions <- rbind(
+    caribbean_countries_df,
+    central_america_df,
+    south_america_df,
+    sub_saharan_africa_df,
+    south_east_asia_df,
+    south_asia_df,
+    oceania_df
+)
+
+save(R0MeanMonthStatRegions, file = "processedData/R0MeanMonthStatRegions.rda")
+
+
+
